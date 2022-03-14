@@ -1,0 +1,72 @@
+version: "3.3"
+services:
+  mongodb_server_lynx:
+    image: mongo:4.4
+    command: mongod --serviceExecutor adaptive --replSet rs1 --port 27017 --keyFile  /data/mongo-repl.key
+    ports:
+      - 27017:27017
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=admin_user
+      - MONGO_INITDB_ROOT_PASSWORD=admin_pass
+    volumes:
+      - mongodb_server_lynx_data:/data/db
+      - ./mongodb/mongo-repl.key:/data/mongo-repl.key
+
+  mongodb_server_puma:
+    image: mongo:4.4
+    command: mongod --serviceExecutor adaptive --replSet rs1 --port 27017 --keyFile /etc/mongo-repl.key
+    ports:
+      - 27117:27017
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=admin_user
+      - MONGO_INITDB_ROOT_PASSWORD=admin_pass
+    volumes:
+      - mongodb_server_puma_data:/data/db
+      - ./mongodb/mongo-repl.key:/etc/mongo-repl.key
+
+  mongodb_server_wolf:
+    image: mongo:4.4
+    command: mongod --serviceExecutor adaptive --replSet rs1 --port 27017 --keyFile /etc/mongo-repl.key
+    ports:
+      - 27217:27017
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=admin_user
+      - MONGO_INITDB_ROOT_PASSWORD=admin_pass
+    volumes:
+      - mongodb_server_wolf_data:/data/db
+      - ./mongodb/mongo-repl.key:/etc/mongo-repl.key
+
+  mongo-express:
+    image: mongo-express
+    container_name: mongo-express
+    # restart: always
+    ports:
+      - 8111:8081
+    environment:
+      - ME_CONFIG_MONGODB_URL=mongodb://application_user:application_pass@mongodb_server_lynx:27017,mongodb_server_puma:27017,mongodb_server_wolf:27017/teacher?replicaSet=rs1
+      - ME_CONFIG_MONGODB_ENABLE_ADMIN="true"
+      - ME_CONFIG_BASICAUTH_USERNAME=root
+      - ME_CONFIG_BASICAUTH_PASSWORD=root
+    depends_on:
+      - mongodb_server_lynx
+      - mongodb_server_puma
+      - mongodb_server_wolf
+
+  backend:
+    build: ./backend
+    volumes:
+      - ./backend:/backend
+    ports:
+      - 8000:8000
+
+  frontend:
+    build: ./frontend
+    volumes:
+      - ./frontend/src:/app/src
+    ports:
+      - 4200:4200
+
+volumes:
+  mongodb_server_lynx_data:
+  mongodb_server_puma_data:
+  mongodb_server_wolf_data:

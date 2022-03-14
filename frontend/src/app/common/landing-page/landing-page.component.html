@@ -1,0 +1,20 @@
+<div class="header">
+    <h1>Projects</h1>
+    <div class="action">
+        <div class="new" (click)="openDialog()">
+            <img src="assets/icon/add.svg">
+            <span>Create Project</span>
+        </div>
+    </div>
+</div>
+
+
+<div *ngIf="service.projects | async as projects; else loading">
+    <div class="projects">
+        <ng-container *ngIf="projects.length; else noItems" >
+            <app-project-meta *ngFor="let project of projects"[project]="project"></app-project-meta>
+        </ng-container>
+    </div>
+    <ng-template #noItems>No Items!</ng-template>
+</div>
+<ng-template #loading>loading animation...</ng-template>

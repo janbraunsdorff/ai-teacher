@@ -1,0 +1,45 @@
+<h1>Image Segemation</h1>
+
+<div class="segemetation">
+    <div class="image">
+        <app-canvas
+        [action]="action"
+        [start]="start"
+        [segement]="segement"
+        [activate]="activate"
+        (startDrawing)="startDrawing($event)"
+        (endDrawing)="endDrawing($event)"
+        [showEvent]="showEvent.asObservable()"
+        [delete]="delete.asObservable()"
+        [image]="img"
+        ></app-canvas>
+    </div>
+
+    <div class="classes">
+        <form>
+            <div class="class" *ngFor="let cls of segement">
+                <mat-form-field class="input" appearance="fill">
+                    <mat-label>{{cls.label}}</mat-label>
+                    <input matInput [placeholder]="cls.label" [(ngModel)]="cls.value" [name]="cls.label">
+                </mat-form-field>
+                <div class="actions">
+                    <div class="action draw" [class.draw-active]="action == 'draw' && activate == cls.label" (click)="draw(cls.label)">
+                        <img src="assets/icon/edit.svg">
+                        <span>Draw</span>
+                    </div>
+                    <div class="action show" [class.show-active]="action == 'show' && activate == cls.label" (click)="show(cls.label)">
+                        <img src="assets/icon/show.svg">
+                        <span>Show</span>
+                    </div>
+                    <div class="action delete" (click)="del(cls.label)">
+                        <img src="assets/icon/delete.svg">
+                        <span>Delete</span>
+                    </div>
+                </div>
+            </div>
+            <div class="submit">
+                <app-submit></app-submit>
+            </div>
+        </form>
+    </div>
+</div>

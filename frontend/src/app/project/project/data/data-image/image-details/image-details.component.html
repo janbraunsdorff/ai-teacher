@@ -1,0 +1,39 @@
+<div class="data" (click)="toggle()">
+    <div class="image">
+        <div class="name">{{img.name}}</div>
+        <div class="shape">{{img.shape}}</div>
+        <div class="tasks">
+            <div class="task" [class.done]="task.done" *ngFor="let task of img.tasks">{{task.name}}</div>
+        </div>
+    </div>
+    
+    
+    <div *ngIf="open" class="details"> 
+        <div class="img">
+            <h2>Raw Image</h2>
+            <img [src]="image_host">
+        </div>
+
+        <div class="img">
+            <h2>Bounding Box</h2>
+            <div class="dummy"> </div>
+        </div>
+
+        <div class="img">
+            <h2>Segmentation</h2>
+            <div class="dummy"> </div>
+        </div>
+
+        <div class="img">
+            <h2>Classification</h2>
+            <div class="Class"> </div>
+        </div>
+
+        <div class="img">
+            <h2>Extraction</h2>
+            <div class="Class"> </div>
+        </div>
+        
+    </div>
+
+</div>

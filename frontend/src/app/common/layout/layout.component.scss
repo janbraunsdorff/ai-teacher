@@ -1,0 +1,103 @@
+.example-container {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+
+
+}
+
+.example-is-mobile .example-toolbar {
+  position: fixed;
+  z-index: 2;
+}
+
+h1.example-app-name {
+  margin-left: 8px;
+}
+
+.example-sidenav-container {
+  flex: 1;
+}
+
+.example-is-mobile .example-sidenav-container {
+  flex: 1 0 auto;
+}
+
+button {
+  background-color: transparent;
+  border: none;
+}
+
+.item {
+  display: flex;
+  flex-direction: column;
+  width: 20em;
+  font-size: 20px;
+  margin-bottom: 32px;
+
+  padding: 16px;
+
+  .headline {
+    display: flex;
+    flex-direction: row;
+    padding-bottom: 16px;
+    margin-bottom: 8px;
+
+    border-bottom: thin solid rgba(240, 240, 240, 0.8);
+
+    .topic {
+      margin-left: 16px;
+    }
+  }
+
+  .tasks {
+    margin-left: 16px;
+
+    p {
+
+      &:hover {
+        background-color: rgba(240, 240, 240, 0.3);
+      }
+      cursor: pointer;
+      border-radius: 32px;
+      padding: 8px;
+
+    }
+  }
+}
+
+.border {
+  margin: 32px auto 0 auto;
+  max-width: 1500px;
+  cursor: pointer;
+}
+
+@media only screen and (max-width: 1500px) {
+  .border {
+    margin: 32px 32px 0 32px;
+  }
+}
+
+
+.section {
+  display: flex;
+  flex-direction: row;
+  cursor: pointer;
+
+}
+
+.right {
+  margin-left: auto;
+
+  span {
+    margin-right: 16px;
+  }
+
+  img {
+    cursor: pointer;
+  }
+}

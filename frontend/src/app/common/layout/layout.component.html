@@ -1,0 +1,58 @@
+<div class="example-container">
+    <mat-toolbar color="primary" class="example-toolbar">
+      <div class="section">
+        <button mat-icon-button (click)="snav.toggle()"><img src="assets/icon/menu.svg"></button>
+        <h1 class="example-app-name" routerLink="/">Be the Teach of Artificial Intelligence </h1>
+      </div>
+      <div class="section right">
+        <span>{{user}}</span>
+        <img src="assets/icon/logout.svg" (click)="logout()">
+      </div>
+    </mat-toolbar>
+  
+    <mat-sidenav-container class="example-sidenav-container">
+      <mat-sidenav #snav>
+        <mat-nav-list>
+          <div class="item">
+            <div class="headline">
+              <img src="assets/icon/images.svg">
+              <div class="topic">Images</div>
+            </div>
+            <div class="tasks">
+              <p routerLink="/images/classification">Classifiaction</p>
+              <p routerLink="/images/segmentation">Segmenation</p>
+              <p routerLink="/images/extraction">Extraction</p>
+              <p routerLink="/images/segmentation-extraction">Segmentation + Extraction</p>
+            </div>
+          </div>
+          <div class="item">
+            <div class="headline">
+              <img src="assets/icon/audio.svg">
+              <div class="topic">Audio</div>
+            </div>
+            <div class="tasks">
+              <p routerLink="/audio/recording">Recording</p>
+              <p routerLink="/audio/validation">Verification</p>
+            </div>
+          </div>
+          <div class="item">
+            <div class="headline">
+              <img src="assets/icon/text.svg">
+              <div class="topic">Text</div>
+            </div>
+            <div class="tasks">
+              <p routerLink="/text/classification">Classification</p>
+              <p routerLink="/text/recognition">Entity Extraction</p>
+            </div>
+          </div>
+        </mat-nav-list>
+      </mat-sidenav>
+  
+      <mat-sidenav-content>
+        <div class="border">
+          <router-outlet></router-outlet>
+        </div>
+      </mat-sidenav-content>
+    </mat-sidenav-container>
+  </div>
+  

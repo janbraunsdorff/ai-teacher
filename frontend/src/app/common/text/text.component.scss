@@ -1,0 +1,17 @@
+.wrapper-xzy {
+    background-color: rgb(240, 240, 240);
+    border-radius: 4px;
+    color: black;
+    padding: 16px;
+    white-space: pre-wrap;
+    cursor: auto;
+
+    .selected-text-xyz {
+        font-weight: bold;
+        padding: 2px 8px;
+        background-color: red;
+        border-radius: 1000px;
+        color: #fff
+    }
+}
+

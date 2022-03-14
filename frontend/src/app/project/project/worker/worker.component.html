@@ -1,0 +1,9 @@
+<h1>Workers</h1>
+
+<div *ngIf="service.worker | async as workers; else loading">
+    <ng-container *ngIf="workers.length; else noItems" >
+        <app-worker-detail *ngFor="let worker of workers" [worker]="worker"></app-worker-detail>
+    </ng-container>
+    <ng-template #noItems>No Items!</ng-template>
+</div>
+<ng-template #loading>loading animation...</ng-template>

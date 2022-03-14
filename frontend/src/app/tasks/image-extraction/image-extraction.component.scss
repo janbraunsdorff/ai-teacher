@@ -1,0 +1,30 @@
+.segemetation {
+    display: flex;
+    flex-direction: row;
+    gap: 64px;
+
+    .image {    
+        width: calc(50% - 32px);
+    }
+
+    .classes {
+        font-size: 16px;
+        width: 50%;
+
+        .class {
+            width: 100%;
+            .actions {
+                mat-form-field {
+                    width: 100%;
+                }
+            }
+
+
+        }
+    }
+}
+
+
+.submit{
+    text-align: right;
+}

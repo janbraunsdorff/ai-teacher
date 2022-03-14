@@ -1,0 +1,29 @@
+.header {
+    display: flex;
+    flex-direction: row;
+
+    .action {
+        margin-left: auto;
+
+        .new {
+            display: flex;
+            flex-direction: row;
+            line-height: 32px;
+            font-size: 1.2em;
+            background-color: rgba(0, 102, 179, 1);
+            padding: 4px 16px;
+            border-radius: 0 0 0 60px;
+            cursor: pointer;
+            img {
+                margin-right: 8px;
+            }
+        }
+    }
+}
+
+.projects {
+    margin-top: 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}

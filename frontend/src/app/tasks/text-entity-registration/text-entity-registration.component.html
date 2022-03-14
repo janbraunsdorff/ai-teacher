@@ -1,0 +1,30 @@
+<h1>Entity Extraction</h1>
+
+<div class="segemetation">
+    <div class="image">
+        <app-text
+            [text]="plain_text"
+            [selection]="selection"
+            
+        ></app-text>
+    </div>
+    <div class="classes">
+        <div class="class" *ngFor="let cls of classes">
+            <p>{{cls.label}}</p>
+            <span *ngFor="let val of cls.values">({{val.start}},{{val.end}}) {{val.value}}</span>
+            <div class="actions">
+                <div class="action draw" [class.draw-active]="action == 'draw' && activate == cls.id" (click)="draw(cls.id)">
+                    <img src="assets/icon/edit.svg">
+                    <span>Mark</span>
+                </div>
+                <div class="action delete">
+                    <img src="assets/icon/delete.svg">
+                    <span>Delete</span>
+                </div>
+            </div>
+        </div>
+        <div class="submit">
+            <app-submit></app-submit>
+        </div>        
+    </div>
+</div>

@@ -1,0 +1,28 @@
+.wrapper {
+    display: flex; 
+    flex-direction: row;
+    justify-content: center;
+    gap: 64px;
+    margin: auto;
+    div {
+        background-color: #676767;
+        border-radius: 4px;
+        padding: 16px;
+        width: 20em;
+
+        .input {
+            width: 100%;
+        }
+    }
+}
+
+.error {
+    background-color: rgba(185, 82, 82, 0.308);
+    padding: 1em;
+    margin-bottom: 1em;
+
+    p {
+        margin: 0;
+        color:rgb(255, 0, 0)
+    }
+}

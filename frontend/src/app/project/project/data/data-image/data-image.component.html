@@ -1,0 +1,9 @@
+<h1>Images</h1>
+
+<div *ngIf="service.images | async as images; else loading">
+    <ng-container *ngIf="images.length; else noItems" >
+        <app-image-details *ngFor="let image of images" [img]="image" [pid]="project_id"></app-image-details>
+    </ng-container>
+    <ng-template #noItems>No Items!</ng-template>
+</div>
+<ng-template #loading>loading animation...</ng-template>

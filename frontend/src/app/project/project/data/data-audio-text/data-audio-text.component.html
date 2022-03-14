@@ -1,0 +1,17 @@
+<h1>Text</h1>
+
+
+
+<div *ngIf="service.audio | async as audios; else loading">
+    <ng-container *ngIf="audios.length; else noItems" >
+        <div class="text" *ngFor="let audio of audios">
+            <div class="id">{{audio.id}}</div>
+            <div class="val">{{audio.text}}</div>
+            <div class="tasks">
+                <div class="task" [class.done]="task.done" *ngFor="let task of audio.tasks">{{task.name}}</div>
+            </div>
+        </div>
+    </ng-container>
+    <ng-template #noItems>No Items!</ng-template>
+</div>
+<ng-template #loading>loading animation...</ng-template>

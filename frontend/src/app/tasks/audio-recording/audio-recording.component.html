@@ -1,0 +1,29 @@
+<h1>Teach to understand humans!</h1>
+
+<div class="input">
+    <div class="working">
+        <img *ngIf="state !== 'hear'" src="assets/icon/mic-off.svg">
+        <img *ngIf="state === 'hear'" src="assets/icon/mic.svg">
+        <div class="text">{{text?.text}}</div>
+    </div>
+    <div class="steps">
+        <div class="class" (click)="changeState('ready')" [class.active-step]="state == 'ready'">
+            <p>Start Audio Recording [Space]</p>
+        </div>
+
+        <div class="class" (click)="changeState('hear')" [class.active-step]="state == 'hear'">
+            <p>Stop Audio Recording [Space]</p>
+        </div>
+
+        <div class="final">
+            <div class="class"  [class.active-submit]="state == 'done'">
+                <p>Reset Audio [r]</p>
+            </div>
+    
+            <div class="class active-submit" (click)="changeState('done')" [class.active-submit]="state == 'done'">
+                <p>Start Audio Recording [Enter]</p>
+            </div>
+        </div>
+
+    </div>
+</div>

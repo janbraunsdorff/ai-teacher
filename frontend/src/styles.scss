@@ -1,0 +1,109 @@
+@use '~@angular/material' as mat;
+
+@include mat.core();
+
+$md-mcgpalette0: (
+    50 : #e0edf6,
+    100 : #b3d1e8,
+    200 : #80b3d9,
+    300 : #4d94ca,
+    400 : #267dbe,
+    500 : #0066b3,
+    600 : #005eac,
+    700 : #0053a3,
+    800 : #00499a,
+    900 : #00388b,
+    A100 : #b7ceff,
+    A200 : #84abff,
+    A400 : #5188ff,
+    A700 : #3777ff,
+    contrast: (
+        50 : #000000,
+        100 : #000000,
+        200 : #000000,
+        300 : #000000,
+        400 : #ffffff,
+        500 : #ffffff,
+        600 : #ffffff,
+        700 : #ffffff,
+        800 : #ffffff,
+        900 : #ffffff,
+        A100 : #000000,
+        A200 : #000000,
+        A400 : #000000,
+        A700 : #ffffff,
+    )
+);
+
+
+$md-mcgpalette1: (
+    50 : #ffede0,
+    100 : #ffd1b3,
+    200 : #ffb380,
+    300 : #ff944d,
+    400 : #ff7d26,
+    500 : #ff6600,
+    600 : #ff5e00,
+    700 : #ff5300,
+    800 : #ff4900,
+    900 : #ff3800,
+    A100 : #ffffff,
+    A200 : #fff4f2,
+    A400 : #ffc9bf,
+    A700 : #ffb4a6,
+    contrast: (
+        50 : #000000,
+        100 : #000000,
+        200 : #000000,
+        300 : #000000,
+        400 : #000000,
+        500 : #000000,
+        600 : #000000,
+        700 : #ffffff,
+        800 : #ffffff,
+        900 : #ffffff,
+        A100 : #000000,
+        A200 : #000000,
+        A400 : #000000,
+        A700 : #000000,
+    )
+);
+
+:root{
+  --background-00:  #121212;
+  --background-01:  #1d1d1d;
+  --background-02:  #212121;
+  --background-03:  #252525;
+  --background-04:  #272727;
+  --background-06:  #2c2c2c;
+  --background-08:  #2d2d2d;
+  --background-12:  #323232;
+  --background-16:  #363636;
+  --background-24:  #373737;
+}
+
+$labeling-ui-primary: mat.define-palette($md-mcgpalette0);
+$labeling-ui-accent: mat.define-palette($md-mcgpalette1, A200, A100, A400);
+
+// The warn palette is optional (defaults to red).
+$labeling-ui-warn: mat.define-palette(mat.$red-palette);
+
+// Create the theme object. A theme consists of configurations for individual
+// theming systems such as "color" or "typography".
+$labeling-ui-theme: mat.define-dark-theme((
+  color: (
+    primary: $labeling-ui-primary,
+    accent: $labeling-ui-accent,
+    warn: $labeling-ui-warn,
+  )
+));
+
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+@include mat.all-component-themes($labeling-ui-theme);
+
+/* You can add global styles to this file, and also import other style files */
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

@@ -1,0 +1,38 @@
+<div class="error" *ngIf="msg != ''">
+    <p>Ups, there was an mistake. Plase contanct your admin oder create an issu on Github.</p>
+    <p>{{msg}}</p>
+</div>
+<div class="wrapper">
+    <div class="account">
+        <h2>Register</h2>
+        <form>
+            <mat-form-field class="input" appearance="fill">
+                <mat-label>Name</mat-label>
+                <input matInput placeholder="Name" [(ngModel)]="registerName" name="Name">
+            </mat-form-field>
+            <mat-form-field class="input" appearance="fill">
+                <mat-label>Alias</mat-label>
+                <input matInput placeholder="Name" [(ngModel)]="registerAlias" name="Alias">
+            </mat-form-field>
+            <mat-form-field class="input" appearance="fill">
+                <mat-label>Password</mat-label>
+                <input type="password" matInput placeholder="Password" [(ngModel)]="registerPasswordClear" name="Password">
+            </mat-form-field>
+            <app-submit text="Regestrieren" (click)="register()"></app-submit>
+        </form>
+    </div>
+    <div class="guest">
+        <h2>Login</h2>
+        <form>
+            <mat-form-field class="input" appearance="fill">
+                <mat-label>Alias</mat-label>
+                <input matInput placeholder="Name" [(ngModel)]="loginAlias" name="Alias">
+            </mat-form-field>
+            <mat-form-field class="input" appearance="fill">
+                <mat-label>Password</mat-label>
+                <input type="password" matInput placeholder="Password" [(ngModel)]="loginPasswordClear" name="Password">
+            </mat-form-field>
+            <app-submit text="Login" (click)="login()"></app-submit>
+        </form>
+    </div>
+</div>

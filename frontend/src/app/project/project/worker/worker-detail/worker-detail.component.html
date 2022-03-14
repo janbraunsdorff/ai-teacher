@@ -1,0 +1,12 @@
+<div class="data" (click)="toggle()">
+    <div class="worker">
+        <div class="name">{{worker.name}}</div>
+        <div clss="alias">{{worker.alias}}</div>
+        <div class="selected">
+            <div class="idicator" [class.choosen]="worker.is_worker">
+                <img src="assets/icon/done.svg" *ngIf="worker.is_worker">
+                <img src="assets/icon/add.svg" *ngIf="!worker.is_worker">
+            </div>
+        </div>
+    </div>
+</div>

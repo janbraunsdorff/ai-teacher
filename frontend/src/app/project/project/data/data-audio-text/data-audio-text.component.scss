@@ -1,0 +1,49 @@
+h1 {
+    margin-top: 16px;
+    margin-left: 16px;
+ }
+
+
+.text {
+    display: flex;
+    flex-direction: row;
+    gap: 16px;
+    font-size: 16px;
+    padding: 0 16px;
+
+    border-bottom: thin solid #555;
+
+    &:hover {
+        background-color: #777;
+        border-radius: 8px;
+    }
+
+    .id {
+        padding: 8px 0;
+    }
+
+    .val {
+        padding: 8px 0;
+        width: 50%;
+        overflow-x: hidden;
+        white-space: nowrap;
+    }
+
+    .tasks {
+        display: flex;
+        flex-direction: row;
+        gap: 16px;
+
+        .task {
+            padding: 8px 16px;
+            background-color: rgba(153, 0, 0, 0.35);
+            border-radius: 20em;
+        }
+
+        .done {
+            background-color: rgba(0, 153, 13, 0.35);
+        }
+    }
+
+
+}

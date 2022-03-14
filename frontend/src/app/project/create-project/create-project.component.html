@@ -1,0 +1,11 @@
+<h1 mat-dialog-title>Create New Project</h1>
+<div mat-dialog-content>
+  <p>Enter a name</p>
+  <mat-form-field appearance="fill" class="name">
+    <mat-label>Project Name</mat-label>
+    <input matInput [(ngModel)]="name">
+  </mat-form-field>
+</div>
+<div mat-dialog-actions class="save">
+  <app-submit (click)="save()" text="Create" ></app-submit>
+</div>

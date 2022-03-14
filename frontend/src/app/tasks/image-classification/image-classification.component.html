@@ -1,0 +1,35 @@
+<h1>Image Classifiaction</h1>
+
+<div class="segemetation">
+    <div class="image">
+        <app-canvas
+        [image]="img"
+        ></app-canvas>
+    </div>
+
+    <div class="input">
+        <section>
+            <mat-checkbox (change)="autoSubmit($event)">Auto Submit</mat-checkbox>
+        </section>
+    
+        <div *ngIf="service.classes | async as classes; else loading">
+            <div class="classes">
+                <ng-container *ngIf="classes.classes.length; else noItems" >
+
+                    <div class="class" [class.active]="selected == cls.id" *ngFor="let cls of classes.classes; let i = index" (click)='select(cls.id)'>
+                        <p>[{{key[i]}}] {{cls?.name}}</p>
+                        <span>{{cls?.desc}}</span>
+                    </div>
+
+                </ng-container>
+            </div>
+        
+            <ng-template #noItems>No Items!</ng-template>
+        </div>
+        <ng-template #loading>loading animation...</ng-template>
+
+        <div class="submit">
+            <app-submit (click)="label()"></app-submit>
+        </div>
+    </div>
+</div>

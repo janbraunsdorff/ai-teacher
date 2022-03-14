@@ -1,0 +1,23 @@
+.btn {
+    display: flex;
+    flex-direction: row;
+    justify-content: right;
+
+    div {
+        background-color: #0066b3;
+        padding: 8px 16px;
+        border-radius: 99px;
+        line-height: 32px;
+        display: flex;
+        flex-direction: row;
+        
+        span {
+            font-size: 20px;
+            margin-right: 16px;
+        }
+
+        img {
+            margin: auto;
+        }
+    }
+}

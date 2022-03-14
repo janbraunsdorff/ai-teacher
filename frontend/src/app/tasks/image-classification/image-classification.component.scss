@@ -1,0 +1,57 @@
+.input {
+    width: 100%;
+}
+
+.segemetation {
+    display: flex;
+    flex-direction: row;
+    gap: 64px;
+
+
+    .image {    
+        width: calc(40% - 32px);
+    }
+
+    .classes {
+        width: 100%;
+        font-size: 16px;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+        gap: 8px;
+
+        .class {
+            margin-bottom: 8px;
+            background-color: #676767;
+            border-radius: 4px;
+            padding: 16px;
+            cursor: pointer;
+            p {
+                margin: 0 0 8px 0;
+                font-size: 24px;
+            }
+
+            span {
+                margin-top: 8px;
+                color: #aaa;
+            }
+
+            &:hover {
+                background-color: rgba(255, 102, 0, 0.4);
+            }
+        }
+
+        .active {
+            background-color: rgba(255, 102, 0, 1);
+        }
+
+    }
+}
+
+section {
+    margin-bottom: 16px;
+}
+
+.submit{
+    text-align: right;
+}
+

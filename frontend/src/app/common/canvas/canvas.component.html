@@ -1,0 +1,8 @@
+<div class="image">
+    <div class="img" >
+        <img #img [src]="image" (load)="initCanvas()">
+    </div>
+    <div class="can" id='can-container'>
+        <canvas #can (click)="mark($event)" [class.canvas-acvtive]="action === 'draw'" (mousemove)="preview($event)"></canvas>
+    </div>
+</div>

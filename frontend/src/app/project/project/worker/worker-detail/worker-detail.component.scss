@@ -1,0 +1,53 @@
+$size: 16px;
+
+.data {
+    border-bottom: thin solid #555;
+
+    &:hover {
+        background-color: #777;
+        border-radius: 8px;
+    }
+
+    .worker {
+        display: flex;
+        flex-direction: row;
+        gap: 16px;
+        font-size: 16px;
+        padding: 8px 16px;
+    }
+    
+
+    .name {
+        width: 40%;
+    }
+
+    .alias {
+        width: 10%
+    }
+
+    .selected {
+        display: flex;
+        flex-direction: row;
+        margin-left: auto;
+        .idicator {
+            height: $size;
+            width: $size;
+            border-radius: $size;
+            border: 2px dashed #aaa;
+            margin-left: auto;
+            background-color: #777;
+    
+            img {
+                height: $size;
+                width: $size;
+            }
+    
+        }
+    }
+    
+}
+
+.choosen {
+    border-color: rgba(0, 153, 13, 0.8) !important;
+    background-color: rgba(0, 153, 13, 0.35) !important;
+}

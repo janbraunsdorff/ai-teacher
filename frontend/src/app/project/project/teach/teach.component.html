@@ -1,0 +1,22 @@
+<div class="wrapper">
+    <h1>Exercise</h1>
+
+        <div *ngIf="service.excercies | async as excercies; else loading">
+            <ng-container *ngIf="excercies.length; else noItems" >
+                <div class="tasks">
+                    <div class="task" *ngFor="let ex of excercies" [routerLink]="['/', 'teach', pid, nameToPath.get(ex.task_name)]">
+                        <div class="details">
+                            <div class="name">{{ex.task_name}}</div>
+                            <div class="progess">Datatype: {{ex.data_type}}</div>
+                            <div class="progess">{{ex.processed}}/{{ex.total}}</div>
+                        </div>
+                        <div class="do">
+                            <img src="assets/icon/teach.svg">
+                        </div>
+                    </div>
+                </div>
+            </ng-container>
+            <ng-template #noItems>No Items!</ng-template>
+        </div>
+        <ng-template #loading>loading animation...</ng-template>
+    </div>

@@ -1,0 +1,72 @@
+
+.data {
+    border-bottom: thin solid #555;
+}
+
+
+.image {
+    display: flex;
+    flex-direction: row;
+    gap: 16px;
+    font-size: 16px;
+    padding: 0 16px;
+
+    &:hover {
+        background-color: #777;
+        border-radius: 8px;
+    }
+
+    .name {
+        width: 30%;
+        padding: 8px 0;
+
+    }
+
+    .shape {
+        width: 10%;
+        padding: 8px 0;
+
+    }
+
+    .tasks {
+        display: flex;
+        flex-direction: row;
+        gap: 16px;
+
+        .task {
+            padding: 8px 16px;
+            background-color: rgba(153, 0, 0, 0.35);
+            border-radius: 20em;
+        }
+
+        .done {
+            background-color: rgba(0, 153, 13, 0.35);
+        }
+    }
+}
+
+
+.details {
+    margin: 16px 16px 0 16px;
+    display: grid;
+    gap: 16px;
+    grid-template-columns: repeat(auto-fill, minmax(256px, 1fr));
+    grid-template-rows: 1fr;
+
+    .img {
+        width: 256px;
+        height: 256px;
+        img {
+            max-height: 256px;
+            max-width: 256px;
+
+        }
+    }
+}
+
+
+.dummy {
+    width: 256px;
+    height: 189px;
+    background-color: #555;
+}

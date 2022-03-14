@@ -1,0 +1,21 @@
+<h1>What would you like to teach?</h1>
+
+<div *ngIf="service.tasks | async as tasks; else loading">
+    <div class="tasks">
+        <ng-container *ngIf="tasks.length; else noItems" >
+            <div class="task choosen" *ngFor="let task of tasks" [class.choosen]="task.selected" (click)="toggle(task.id)">
+                <div class="selected">
+                    <div class="idicator" [class.choosen]="task.selected">
+                        <img src="assets/icon/done.svg" *ngIf="task.selected">
+                        <img src="assets/icon/add.svg" *ngIf="!task.selected">
+                    </div>
+                </div>
+                <div class="name">{{task.name}}</div>
+                <div class="data">This Task is only avibele for {{task.type}}</div>
+            </div>
+        </ng-container>
+    </div>
+
+    <ng-template #noItems>No Items!</ng-template>
+</div>
+<ng-template #loading>loading animation...</ng-template>

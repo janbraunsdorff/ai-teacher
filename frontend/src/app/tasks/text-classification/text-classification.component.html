@@ -1,0 +1,24 @@
+<h1>Image Classifiaction</h1>
+
+<div class="segemetation">
+    <div class="image">
+        <app-text
+            [text]="text"
+        ></app-text>
+    </div>
+    <div>
+        <section>
+            <mat-checkbox>Auto Submit</mat-checkbox>
+        </section>
+        <div class="classes">
+    
+    
+            <div class="class" [class.active]="selected == cls.label" *ngFor="let cls of classes" (click)="select(cls.label)">
+                <p>{{cls.label}}</p>
+            </div>
+        </div>
+        <div class="submit">
+            <app-submit></app-submit>
+        </div>
+    </div>
+</div>
