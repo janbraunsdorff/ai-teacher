@@ -1,13 +1,12 @@
 from fastapi import FastAPI
-
-from app.api.status import status_router
 from fastapi.middleware.cors import CORSMiddleware
 
+from app.api.status import status_router
 from app.api.user import user_router
 
 api = FastAPI()
 
-origins = ['*']
+origins = ["*"]
 
 api.add_middleware(
     CORSMiddleware,
@@ -16,7 +15,6 @@ api.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
 
 
 api.include_router(status_router)

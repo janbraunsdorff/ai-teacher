@@ -1,4 +1,4 @@
-from typing import Optional, List
+from typing import List, Optional
 
 from pydantic import BaseModel
 
@@ -26,6 +26,7 @@ class UserInDB(User):
 class RegisterUserRequest(BaseModel):
     username: str
     password: str
+
 
 class MongoUser(BaseModel):
     _id: str

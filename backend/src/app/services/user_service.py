@@ -1,4 +1,6 @@
 import datetime
+import logging
+import os
 from datetime import timedelta
 from typing import Any, Dict, Optional
 from uuid import uuid4
@@ -8,11 +10,8 @@ from fastapi.security import OAuth2PasswordBearer
 from jose import JWTError, jwt
 from passlib.context import CryptContext
 
-from app.model.user_models import TokenData, User, UserInDB, MongoUser
-
-from app.database.user import insert_user, find_by_username
-import logging
-import os
+from app.database.user import find_by_username, insert_user
+from app.model.user_models import MongoUser, TokenData, User, UserInDB
 
 SECRET_KEY = "09d25e094faa6ca2556c818166b7a9563b93f7099f6f0f4caa6cf63b88e8d3e7"
 ALGORITHM = "HS256"
@@ -34,11 +33,12 @@ def get_user(username: str):
     user = find_by_username(username)
     return user
 
+
 def authenticate_user(username: str, password: str):
     user = get_user(username)
     if not user:
         return False
-    if not verify_password(password, user.hashed_password):
+    if not verify_password(password, user["hashed_password"]):
         return False
     return user
 
@@ -50,7 +50,9 @@ def create_access_token(
     if expires_delta:
         expire = datetime.datetime.utcnow() + expires_delta
     else:
-        expire = datetime.datetime.utcnow() + timedelta(minutes=15)
+        expire = datetime.datetime.utcnow() + timedelta(minutes=30)
+
+    print(SECRET_KEY)
     to_encode.update({"exp": expire})
     encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
     return encoded_jwt
@@ -79,7 +81,7 @@ async def get_current_user(token: str = Depends(oauth2_scheme)):
 async def get_current_active_user(
     current_user: User = Depends(get_current_user),
 ):
-    if current_user.disabled:
+    if current_user["disabled"]:
         raise HTTPException(status_code=400, detail="Inactive user")
 
     return current_user
@@ -90,7 +92,7 @@ def create_user(name: str, password: str):
         _id=str(uuid4()),
         username=name,
         password=get_password_hash(password),
-        roles=["worker"]
+        roles=["worker"],
     )
     if get_user(name) is not None:
         raise HTTPException(status_code=409, detail="User already exists")
