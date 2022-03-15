@@ -15,6 +15,7 @@ class TokenData(BaseModel):
 class User(BaseModel):
     username: str
     email: Optional[str] = None
+    alias: str
     full_name: Optional[str] = None
     disabled: Optional[bool] = None
 
@@ -24,12 +25,14 @@ class UserInDB(User):
 
 
 class RegisterUserRequest(BaseModel):
-    username: str
+    name: str
+    alias: str
     password: str
 
 
 class MongoUser(BaseModel):
     _id: str
-    username: str
+    alias: str
     password: str
+    name: str
     roles: List[str]

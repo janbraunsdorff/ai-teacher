@@ -13,7 +13,7 @@ client = TestClient(api)
 def test_login_no_existing_user(fake_user):
     user, jwt, password = fake_user
     payload_token = {
-        "sub": user["username"],
+        "sub": user["alias"],
         "exp": datetime.datetime.utcnow() + timedelta(minutes=30),
     }
     jwt = us.create_access_token(data=payload_token)
@@ -28,7 +28,7 @@ def test_login_no_existing_user(fake_user):
 def test_login(fake_user):
     user, jwt, password = fake_user
     res = client.post(
-        "/user/login", {"username": user["username"], "password": password}
+        "/user/login", {"username": user["alias"], "password": password}
     )
     assert res.status_code == 200
     assert res.json()["access_token"] == jwt
@@ -38,7 +38,7 @@ def test_login(fake_user):
 def test_login_wrong_password(fake_user):
     user, jwt, password = fake_user
     res = client.post(
-        "/user/login", {"username": user["username"], "password": "myPassword"}
+        "/user/login", {"username": user["alias"], "password": "myPassword"}
     )
     assert res.status_code == 401
     assert res.json() == {"detail": "Incorrect username or password"}
@@ -70,7 +70,7 @@ def test_wrong_secret_to_encode(fake_user, monkeypatch):
     user, jwt, _ = fake_user
 
     payload_token = {
-        "sub": user["username"],
+        "sub": user["alias"],
         "exp": datetime.datetime.utcnow() + timedelta(minutes=30),
     }
     jwt = us.create_access_token(data=payload_token)

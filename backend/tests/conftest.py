@@ -50,8 +50,9 @@ def fake_user(monkeypatch, patch_security, freeze_time):
     username = "test_username"
 
     user = {
-        "username": username,
+        "username": "username",
         "full_name": "John Doe",
+        "alias": username,
         "email": "johndoe@example.com",
         "hashed_password": us.get_password_hash(password),
         "disabled": False,
@@ -79,8 +80,9 @@ def fake_user_disabled(fake_user):
     username = "disabled_test_username"
 
     user = {
-        "username": username,
+        "username": "username",
         "full_name": "John Doe",
+        "alias": username,
         "email": "johndoe@example.com",
         "hashed_password": us.get_password_hash(password),
         "disabled": True,
