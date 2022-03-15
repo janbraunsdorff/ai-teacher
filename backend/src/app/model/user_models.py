@@ -17,6 +17,7 @@ class User(BaseModel):
     name: str
     roles: List[str]
 
+
 class UserInDB(User):
     hashed_password: str
 

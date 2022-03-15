@@ -6,6 +6,7 @@ from fastapi.testclient import TestClient
 
 import app.services.user_service as us
 from app.api import api
+from app.model.user_models import RegisterUserRequest
 
 client = TestClient(api)
 
@@ -94,3 +95,20 @@ def test_valid_token_user_not_exists(fake_user):
 
     assert res.status_code == 401
     assert res.json() == {"detail": "Could not validate credentials"}
+
+
+def test_registration_login(patch_mongodb):
+    test_username = "user"
+    test_password = "pass"
+
+    body = RegisterUserRequest(
+        alias=test_username, password=test_password, name="Jan"
+    )
+    res = client.post("/user/register", body.json())
+    assert res.status_code == 200
+
+    res = client.post(
+        "/user/login", {"username": test_username, "password": test_password}
+    )
+
+    assert res.status_code == 200

@@ -43,6 +43,7 @@ def patch_security(monkeypatch):
     us.SECRET_KEY = "myTopSecretKey"
     monkeypatch.setattr(us, "SECRET_KEY", "myTopSecretKey")
 
+
 @pytest.fixture
 def patch_mongodb(monkeypatch, patch_security):
     client = mongomock.MongoClient()
