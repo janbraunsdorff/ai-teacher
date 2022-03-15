@@ -1,6 +1,6 @@
 from datetime import datetime, timedelta
 
-from fastapi import APIRouter, Depends, HTTPException, status, Response
+from fastapi import APIRouter, Depends, HTTPException, Response, status
 from fastapi.security import OAuth2PasswordRequestForm
 
 from app.model.user_models import RegisterUserRequest, Token, User
@@ -19,15 +19,17 @@ user_router = APIRouter(prefix="/user", tags=["user"])
 async def register(user: RegisterUserRequest, response: Response):
     create_user(user.alias, user.password, user.name)
     access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
-    access_token = create_access_token(
+    access_token, expire = create_access_token(
         data={"sub": user.alias}, expires_delta=access_token_expires
     )
-    response.set_cookie("token", access_token, httponly=True, secure=False)
+    response.set_cookie(
+        "token", "bearer " + access_token, httponly=True, secure=False
+    )
 
     return {
-        "expired_in": datetime.utcnow().timestamp() * 1000.0,
+        "expired_in": str(expire.timestamp() * 1000),
         "alias": user.alias,
-        "roles": ["worker"]
+        "roles": ["worker"],
     }
 
 
@@ -44,16 +46,18 @@ async def login_for_access_token(
             headers={"WWW-Authenticate": "Bearer"},
         )
     access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
-    access_token = create_access_token(
+    access_token, expire = create_access_token(
         data={"sub": user["alias"]}, expires_delta=access_token_expires
     )
-    
-    response.set_cookie("token", access_token, httponly=True, secure=False)
+
+    response.set_cookie(
+        "token", "bearer " + access_token, httponly=True, secure=False
+    )
 
     return {
-        "expired_in": datetime.utcnow().timestamp() * 1000.0,
+        "expired_in": str(expire.timestamp() * 1000),
         "alias": user["alias"],
-        "roles": user["roles"]
+        "roles": user["roles"],
     }
 
 

@@ -2,8 +2,10 @@ import datetime
 from datetime import timedelta
 from typing import Any, Dict, Optional
 
-from fastapi import Depends, HTTPException, status
-from fastapi.security import OAuth2PasswordBearer
+from fastapi import Depends, HTTPException, Request, status
+from fastapi.openapi.models import OAuthFlows as OAuthFlowsModel
+from fastapi.security import OAuth2
+from fastapi.security.utils import get_authorization_scheme_param
 from jose import JWTError, jwt
 from passlib.context import CryptContext
 
@@ -15,7 +17,47 @@ ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
+
+
+class OAuth2PasswordBearerWithCookie(OAuth2):
+    def __init__(
+        self,
+        tokenUrl: str,
+        scheme_name: str = None,  # type: ignore
+        scopes: dict = None,  # type: ignore
+        auto_error: bool = True,
+    ):
+        if not scopes:
+            scopes = {}
+        flows = OAuthFlowsModel(
+            password={"tokenUrl": tokenUrl, "scopes": scopes}
+        )
+        super().__init__(
+            flows=flows, scheme_name=scheme_name, auto_error=auto_error
+        )
+
+    async def __call__(self, request: Request) -> Optional[str]:
+        authorization: str = request.cookies.get("token")
+        if authorization:
+            print("use token", authorization)
+        else:
+            authorization = request.headers.get("Authorization")
+            print("use header", authorization)
+        scheme, param = get_authorization_scheme_param(authorization)
+        if not authorization or scheme.lower() != "bearer":
+            if self.auto_error:
+                raise HTTPException(
+                    status_code=status.HTTP_401_UNAUTHORIZED,
+                    detail="Not authenticated",
+                    headers={"WWW-Authenticate": "Bearer"},
+                )
+            else:
+                return None
+
+        return param  # type: ignore
+
+
+oauth2_scheme = OAuth2PasswordBearerWithCookie(tokenUrl="/auth/token")
 
 
 def verify_password(plain_password, hashed_password):
@@ -52,7 +94,7 @@ def create_access_token(
 
     to_encode.update({"exp": expire})
     encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
-    return encoded_jwt
+    return encoded_jwt, expire
 
 
 async def get_current_user(token: str = Depends(oauth2_scheme)):
@@ -61,6 +103,7 @@ async def get_current_user(token: str = Depends(oauth2_scheme)):
         detail="Could not validate credentials",
         headers={"WWW-Authenticate": "Bearer"},
     )
+    print(token)
     try:
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
         username: str = payload.get("sub")
@@ -78,6 +121,7 @@ async def get_current_user(token: str = Depends(oauth2_scheme)):
 async def get_current_active_user(
     current_user: User = Depends(get_current_user),
 ):
+    print(current_user)
     return current_user
 
 

@@ -35,7 +35,7 @@ def test_login(fake_user):
     assert "expired_in" in res.json()
     assert res.json()["alias"] == user["alias"]
     assert res.json()["roles"] == ["worker"]
-    assert res.cookies.get('token') == jwt
+    assert res.cookies.get("token") == '"bearer ' + jwt + '"'
 
 
 def test_login_wrong_password(fake_user):
@@ -57,12 +57,25 @@ def test_get_self(fake_user):
     assert res.json() == json.loads(json.dumps(user))
 
 
+def test_get_self_cookie(fake_user):
+    user, jwt, _ = fake_user
+    client.cookies.clear()
+    client.cookies.set("token", f"bearer {jwt}")
+    res = client.get("/user/self")
+
+    del user["password"]
+    del user["_id"]
+    assert res.status_code == 200
+    assert res.json() == json.loads(json.dumps(user))
+
+
 def test_missing_user_name(fake_user):
     user, jwt, _ = fake_user
     payload_token = {
         "exp": datetime.datetime.utcnow() + timedelta(minutes=30),
     }
     jwt = us.create_access_token(data=payload_token)
+    client.cookies.clear()
     res = client.get("/user/self", headers={"Authorization": f"bearer {jwt}"})
 
     assert res.status_code == 401
@@ -93,6 +106,7 @@ def test_valid_token_user_not_exists(fake_user):
         "exp": datetime.datetime.utcnow() + timedelta(minutes=30),
     }
     jwt = us.create_access_token(data=payload_token)
+    client.cookies.clear()
     res = client.get("/user/self", headers={"Authorization": f"bearer {jwt}"})
 
     assert res.status_code == 401

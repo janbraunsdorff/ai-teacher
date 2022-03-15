@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
+from app.api.project import project_router
 from app.api.status import status_router
 from app.api.user import user_router
 
@@ -19,3 +20,4 @@ api.add_middleware(
 
 api.include_router(status_router)
 api.include_router(user_router)
+api.include_router(project_router)

@@ -8,6 +8,7 @@ class Token(BaseModel):
     alias: str
     roles: List[str]
 
+
 class TokenData(BaseModel):
     username: Optional[str] = None
 
