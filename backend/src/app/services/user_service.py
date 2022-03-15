@@ -36,7 +36,7 @@ def authenticate_user(username: str, password: str):
     user = get_user(username)
     if not user:
         return False
-    if not verify_password(password, user["hashed_password"]):
+    if not verify_password(password, user["password"]):
         return False
     return user
 
@@ -78,9 +78,6 @@ async def get_current_user(token: str = Depends(oauth2_scheme)):
 async def get_current_active_user(
     current_user: User = Depends(get_current_user),
 ):
-    if current_user["disabled"]:
-        raise HTTPException(status_code=400, detail="Inactive user")
-
     return current_user
 
 

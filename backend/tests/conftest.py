@@ -43,29 +43,30 @@ def patch_security(monkeypatch):
     us.SECRET_KEY = "myTopSecretKey"
     monkeypatch.setattr(us, "SECRET_KEY", "myTopSecretKey")
 
-
 @pytest.fixture
-def fake_user(monkeypatch, patch_security, freeze_time):
-    password = "test_password"
-    username = "test_username"
-
-    user = {
-        "username": "username",
-        "full_name": "John Doe",
-        "alias": username,
-        "email": "johndoe@example.com",
-        "hashed_password": us.get_password_hash(password),
-        "disabled": False,
-    }
-
+def patch_mongodb(monkeypatch, patch_security):
     client = mongomock.MongoClient()
     fake_db = client["teacher"]
     fake_user_collection = fake_db["user"]
-    fake_user_collection.insert_one(user)
 
     monkeypatch.setitem(collections, "user", fake_user_collection)
 
-    to_encode = {"sub": username}
+
+@pytest.fixture
+def fake_user(monkeypatch, patch_mongodb, freeze_time):
+    password = "test_password"
+    alias = "test_username"
+
+    user = {
+        "alias": alias,
+        "password": us.get_password_hash(password),
+        "name": "username",
+        "roles": ["worker"],
+    }
+
+    collections["user"].insert_one(user)
+
+    to_encode = {"sub": alias}
     to_encode.update(
         {"exp": datetime.datetime.utcnow() + timedelta(minutes=30)}
     )
@@ -75,22 +76,20 @@ def fake_user(monkeypatch, patch_security, freeze_time):
 
 
 @pytest.fixture
-def fake_user_disabled(fake_user):
+def fake_user_disabled(monkeypatch, patch_mongodb, freeze_time):
     password = "disabled_test_password"
-    username = "disabled_test_username"
+    alias = "disabled_test_username"
 
     user = {
-        "username": "username",
-        "full_name": "John Doe",
-        "alias": username,
-        "email": "johndoe@example.com",
-        "hashed_password": us.get_password_hash(password),
-        "disabled": True,
+        "alias": alias,
+        "password": us.get_password_hash(password),
+        "name": "username",
+        "roles": ["worker"],
     }
 
     collections["user"].insert_one(user)
 
-    to_encode = {"sub": username}
+    to_encode = {"sub": alias}
     to_encode.update(
         {"exp": datetime.datetime.utcnow() + timedelta(minutes=30)}
     )

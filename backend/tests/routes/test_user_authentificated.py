@@ -48,7 +48,7 @@ def test_get_self(fake_user):
     user, jwt, _ = fake_user
     res = client.get("/user/self", headers={"Authorization": f"bearer {jwt}"})
 
-    del user["hashed_password"]
+    del user["password"]
     del user["_id"]
     assert res.status_code == 200
     assert res.json() == json.loads(json.dumps(user))
@@ -94,11 +94,3 @@ def test_valid_token_user_not_exists(fake_user):
 
     assert res.status_code == 401
     assert res.json() == {"detail": "Could not validate credentials"}
-
-
-def test_valid_token_user_disabled(fake_user_disabled):
-    user, jwt, _ = fake_user_disabled
-    res = client.get("/user/self", headers={"Authorization": f"bearer {jwt}"})
-
-    assert res.status_code == 400
-    assert res.json() == {"detail": "Inactive user"}

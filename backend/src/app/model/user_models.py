@@ -13,12 +13,9 @@ class TokenData(BaseModel):
 
 
 class User(BaseModel):
-    username: str
-    email: Optional[str] = None
     alias: str
-    full_name: Optional[str] = None
-    disabled: Optional[bool] = None
-
+    name: str
+    roles: List[str]
 
 class UserInDB(User):
     hashed_password: str
