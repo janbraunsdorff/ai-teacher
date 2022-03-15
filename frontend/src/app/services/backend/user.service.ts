@@ -17,8 +17,11 @@ export class UserService {
   constructor(private client: HttpClient, private router: Router) { }
 
   login(user: string, pass: string) {
+    let formData = new FormData();
+    formData.append("username", user)
+    formData.append("password", pass)
     this.client.post<Token>
-      (environment.host + "/account/login", {alias: user, password_clear: pass})
+      (environment.host + "/user/login", formData)
       .subscribe( (res) =>{
         localStorage.setItem("auth", JSON.stringify(res))
         this.currentUser()
@@ -34,7 +37,7 @@ export class UserService {
 
   register(alias: string, name: string, password_clear: string) {
     this.client.post<{access_token: string,  token_type: string}>
-      (environment.host + "/account/register", {alias, name, password_clear})
+      (environment.host + "/user/register", {alias, name, password: password_clear})
       .subscribe( (res) =>{
         localStorage.setItem("auth", JSON.stringify(res))
         this.currentUser()

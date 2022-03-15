@@ -4,9 +4,9 @@ from pydantic import BaseModel
 
 
 class Token(BaseModel):
-    access_token: str
-    token_type: str
-
+    expired_in: str
+    alias: str
+    roles: List[str]
 
 class TokenData(BaseModel):
     username: Optional[str] = None

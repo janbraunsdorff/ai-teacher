@@ -25,11 +25,13 @@ def test_register_new_accont(fake_user):
     }
 
     assert res.status_code == 200
-    assert res.json()["access_token"] == create_access_token(data=payload_token)
-    assert res.json()["token_type"] == "bearer"
+    assert "expired_in" in res.json()
+    assert res.json()["alias"] == test_username
+    assert res.json()["roles"] == ["worker"]
+    assert res.cookies.get('token') == create_access_token(data=payload_token)
 
 
-def test_register_new_accont(fake_user):
+def test_register_new_accont_store(fake_user):
     test_username = "user2"
     test_password = "pass2"
     body = RegisterUserRequest(

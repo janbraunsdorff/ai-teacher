@@ -32,8 +32,10 @@ def test_login(fake_user):
         "/user/login", {"username": user["alias"], "password": password}
     )
     assert res.status_code == 200
-    assert res.json()["access_token"] == jwt
-    assert res.json()["token_type"] == "bearer"
+    assert "expired_in" in res.json()
+    assert res.json()["alias"] == user["alias"]
+    assert res.json()["roles"] == ["worker"]
+    assert res.cookies.get('token') == jwt
 
 
 def test_login_wrong_password(fake_user):

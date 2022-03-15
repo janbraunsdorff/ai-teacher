@@ -59,12 +59,12 @@ services:
     ports:
       - 8000:8000
 
-  frontend:
-    build: ./frontend
-    volumes:
-      - ./frontend/src:/app/src
-    ports:
-      - 4200:4200
+  #frontend:
+  #  build: ./frontend
+  #  volumes:
+  #    - ./frontend/src:/app/src
+  #  ports:
+  #    - 4200:4200
 
 volumes:
   mongodb_server_lynx_data:
