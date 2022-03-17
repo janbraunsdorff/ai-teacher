@@ -35,3 +35,4 @@ class MongoUser(BaseModel):
     password: str
     name: str
     roles: List[str]
+    working_on: List[str]           # project ids where to label

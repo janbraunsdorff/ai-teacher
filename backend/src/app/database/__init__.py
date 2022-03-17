@@ -11,4 +11,4 @@ client = MongoClient(connection)
 
 db = client["teacher"]
 
-collections = {"user": db["user"]}
+collections = {"user": db["user"], "project": db["project"]}

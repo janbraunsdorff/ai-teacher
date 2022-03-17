@@ -49,8 +49,10 @@ def patch_mongodb(monkeypatch, patch_security):
     client = mongomock.MongoClient()
     fake_db = client["teacher"]
     fake_user_collection = fake_db["user"]
+    fake_project_collection = fake_db["project"]
 
     monkeypatch.setitem(collections, "user", fake_user_collection)
+    monkeypatch.setitem(collections, "project", fake_project_collection)
 
 
 @pytest.fixture

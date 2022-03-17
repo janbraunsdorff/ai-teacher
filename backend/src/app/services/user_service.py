@@ -38,11 +38,8 @@ class OAuth2PasswordBearerWithCookie(OAuth2):
 
     async def __call__(self, request: Request) -> Optional[str]:
         authorization: str = request.cookies.get("token")
-        if authorization:
-            print("use token", authorization)
-        else:
+        if not authorization:
             authorization = request.headers.get("Authorization")
-            print("use header", authorization)
         scheme, param = get_authorization_scheme_param(authorization)
         if not authorization or scheme.lower() != "bearer":
             if self.auto_error:
@@ -115,13 +112,15 @@ async def get_current_user(token: str = Depends(oauth2_scheme)):
     user = get_user(alias=token_data.username)  # type: ignore
     if user is None:
         raise credentials_exception
+
+    if not isinstance(user, User):
+        user = User(**user)
     return user
 
 
 async def get_current_active_user(
     current_user: User = Depends(get_current_user),
 ):
-    print(current_user)
     return current_user
 
 
@@ -131,6 +130,7 @@ def create_user(alias: str, password: str, name: str):
         name=name,
         password=get_password_hash(password),
         roles=["worker"],
+        working_on=[]
     )
     if get_user(alias) is not None:
         raise HTTPException(status_code=409, detail="User already exists")
