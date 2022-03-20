@@ -102,6 +102,4 @@ def fake_user_disabled(monkeypatch, patch_mongodb, freeze_time):
     )
     encoded_jwt = jwt.encode(to_encode, us.SECRET_KEY, algorithm=us.ALGORITHM)
 
-    print(user)
-
     yield (user, encoded_jwt, password)

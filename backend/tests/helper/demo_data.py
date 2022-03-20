@@ -22,14 +22,18 @@ def insert_user():
     return user
 
 
-def inser_project(user, tasks=[], classes=[]):
+def inser_project(
+    user, tasks=[], img_classes=[], img_entities=[], img_bounding_box_classes=[]
+):
     projects = [
         Project(
             name="p1",
             owner=user["alias"],
             created=time,
             tasks=tasks,
-            classes=classes,
+            img_classes=img_classes,
+            img_entities=img_entities,
+            img_bounding_box_classes=img_bounding_box_classes,
         ).dict()
     ]
 

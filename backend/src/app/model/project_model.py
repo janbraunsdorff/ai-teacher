@@ -28,7 +28,9 @@ class Project(BaseModel):
     owner: str
     created: int
     tasks: List[TaskType]
-    classes: List[Class]
+    img_classes: List[Class]
+    img_entities: List[Class]
+    img_bounding_box_classes: List[Class]
 
     @classmethod
     def convert_from_mongo(cls, data) -> Project:
@@ -66,3 +68,25 @@ class ImportRequest(BaseModel):
 class ImportResponse(BaseModel):
     num_imported: int
     error_files: List[str]
+
+
+class TaskShort(BaseModel):
+    name: str
+    done: bool
+
+
+class ImageMeta(BaseModel):
+    name: str
+    shape: str
+    tasks: List[TaskShort]
+
+
+class PossibleTask(BaseModel):
+    name: str
+    id: str
+    type: str
+    selected: bool
+
+
+class ToggleTaskRequest(BaseModel):
+    task_id: str

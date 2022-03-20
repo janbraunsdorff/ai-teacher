@@ -84,9 +84,17 @@ def test_import_one_image_with_Task_tasks_one_page(
     classes = ["class A", "class B"]
     projects = inser_project(
         user,
-        classes=[
+        img_entities=[
             {"name": "class A", "describtion": "desc A"},
             {"name": "class B", "describtion": "desc B"},
+        ],
+        img_bounding_box_classes=[
+            {"name": "class C", "describtion": "desc A"},
+            {"name": "class D", "describtion": "desc B"},
+        ],
+        img_classes=[
+            {"name": "class E", "describtion": "desc A"},
+            {"name": "class F", "describtion": "desc B"},
         ],
         tasks=[
             TaskType.IMAGE_BOUNDINGBOX,
@@ -100,8 +108,6 @@ def test_import_one_image_with_Task_tasks_one_page(
         collections["document"].find_one({"project": projects[0]["id"]})
     )
 
-    print(document)
-
     assert document.type == DocumentType.IMAGE.value
     assert len(document.files) == num_docs
     assert document.num_result == 1
@@ -109,25 +115,18 @@ def test_import_one_image_with_Task_tasks_one_page(
 
     assert document.tasks[0].type == TaskType.IMAGE_BOUNDINGBOX.value
     assert len(document.tasks[0].results) == 0
-    assert (
-        len(
-            [item for item in document.tasks[0].entities if item not in classes]
-        )
-        == 0
-    )
+    assert document.tasks[0].entities == ["class C", "class D"]
 
     assert document.tasks[1].type == TaskType.IMAGE_CLASSIFICATION.value
     assert len(document.tasks[1].results) == 0
-    assert (
-        len([item for item in document.tasks[1].classes if item not in classes])
-        == 0
-    )
+    assert document.tasks[1].classes == [
+        "class E",
+        "class F",
+    ]
 
     assert document.tasks[2].type == TaskType.IMAGE_EXTRACTION.value
     assert len(document.tasks[2].results) == 0
-    assert (
-        len(
-            [item for item in document.tasks[2].entities if item not in classes]
-        )
-        == 0
-    )
+    assert document.tasks[2].entities == [
+        "class A",
+        "class B",
+    ]

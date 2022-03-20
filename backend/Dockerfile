@@ -2,7 +2,10 @@ FROM python:3.9
 
 WORKDIR /
 
-RUN apt -y install poppler-utils
+RUN apt-get -y update && \
+    apt-get -y install libpoppler-dev
+
+ADD ./content/demo/import_data /demo_data/
 
 ADD requirements.txt /requirements.txt
 RUN pip install -r /requirements.txt

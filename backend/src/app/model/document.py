@@ -1,7 +1,7 @@
+from __future__ import annotations
+
 from enum import Enum
-from html import entities
 from typing import Dict, List, Union
-from unittest import result
 
 from pydantic import BaseModel, Field
 
@@ -36,9 +36,9 @@ class ImageExtraction(TaskResult):
 ## Task
 ##########################
 class TaskType(Enum):
-    IMAGE_BOUNDINGBOX = "iamge_boundingbox"
-    IMAGE_CLASSIFICATION = "image_classification"
-    IMAGE_EXTRACTION = "image_extraction"
+    IMAGE_BOUNDINGBOX = "Image Bounding Box"
+    IMAGE_CLASSIFICATION = "Image Classification"
+    IMAGE_EXTRACTION = "Image Extraction"
 
 
 class Task(BaseModel):
@@ -84,7 +84,7 @@ class Document(BaseModel):
     ]
 
     @classmethod
-    def convert_from_mongo(cls, data):
+    def convert_from_mongo(cls, data) -> Document:
         data["_id"] = str(data["_id"])
         return Document(**data)
 

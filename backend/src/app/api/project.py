@@ -6,8 +6,11 @@ import app.services.import_service as ims
 import app.services.project_service as ps
 from app.model.project_model import (
     CreateProject,
+    ImageMeta,
     ImportRequest,
     ImportResponse,
+    PossibleTask,
+    ToggleTaskRequest,
     ToggleWorkerRequest,
     Worker,
 )
@@ -59,3 +62,28 @@ def post_import(
     )
 
     return ImportResponse(num_imported=imported, error_files=unknown_filetype)
+
+
+@project_router.get("/{pid}/images", response_model=List[ImageMeta])
+def get_image_data(
+    pid,
+    user: User = Depends(get_current_active_user),
+):
+    return ps.get_images(pid)
+
+
+@project_router.get("/{pid}/tasks", response_model=List[PossibleTask])
+def get_tasks(
+    pid,
+    user: User = Depends(get_current_active_user),
+):
+    return ps.get_tasks(pid)
+
+
+@project_router.post("/{pid}/toggle-task")
+def post_toggle_tasks(
+    pid,
+    cmd: ToggleTaskRequest,
+    user: User = Depends(get_current_active_user),
+):
+    return ps.toggle_task(pid, cmd.task_id)

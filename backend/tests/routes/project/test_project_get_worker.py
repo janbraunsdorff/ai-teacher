@@ -16,7 +16,13 @@ def test_get_all_worker_no_worker_is_in(fake_user):
 
     projects = [
         Project(
-            name="p1", owner=user["alias"], created=time, tasks=[], classes=[]
+            name="p1",
+            owner=user["alias"],
+            created=time,
+            tasks=[],
+            img_bounding_box_classes=[],
+            img_classes=[],
+            img_entities=[],
         ).dict()
     ]
     project_ids = collections["project"].insert_many(projects)
@@ -42,7 +48,13 @@ def test_get_all_worker_one_worker_is_in(fake_user):
 
     projects = [
         Project(
-            name="p1", owner=user["alias"], created=time, tasks=[], classes=[]
+            name="p1",
+            owner=user["alias"],
+            created=time,
+            tasks=[],
+            img_bounding_box_classes=[],
+            img_classes=[],
+            img_entities=[],
         ).dict()
     ]
     project_ids = collections["project"].insert_many(projects)

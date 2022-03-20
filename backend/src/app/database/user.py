@@ -17,7 +17,6 @@ def get_all():
 
 
 def get_worker_for_project(pid, all=True):
-    print(pid)
     worker = list(collections["user"].find({"working_on": {"$in": [pid]}}))
     for w in worker:
         w["is_worker"] = True

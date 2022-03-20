@@ -22,7 +22,7 @@ from app.model.document import (
 )
 from app.model.project_model import Project
 
-supported_image = ["image/png", "image/png"]
+supported_image = ["image/png", "image/jpeg"]
 supported_archieves = ["application/pdf"]
 
 
@@ -96,7 +96,7 @@ def save_document(files: List[str], project: Project, type: DocumentType):
                 ImageBoundingBoxTask(
                     type=task,
                     results=[],
-                    entities=[x.name for x in project.classes],
+                    entities=[x.name for x in project.img_bounding_box_classes],
                 )
             )
         if task == TaskType.IMAGE_CLASSIFICATION:
@@ -104,7 +104,7 @@ def save_document(files: List[str], project: Project, type: DocumentType):
                 ImageClassificationTask(
                     type=task,
                     results=[],
-                    classes=[x.name for x in project.classes],
+                    classes=[x.name for x in project.img_classes],
                 )
             )
         if task == TaskType.IMAGE_EXTRACTION:
@@ -112,7 +112,7 @@ def save_document(files: List[str], project: Project, type: DocumentType):
                 ImageExtractionTask(
                     type=task,
                     results=[],
-                    entities=[x.name for x in project.classes],
+                    entities=[x.name for x in project.img_entities],
                 )
             )
 
