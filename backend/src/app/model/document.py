@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from enum import Enum
-from typing import Dict, List, Union
+from typing import Any, Dict, List, Union, Optional
 
 from pydantic import BaseModel, Field
 
@@ -41,8 +41,14 @@ class TaskType(Enum):
     IMAGE_EXTRACTION = "Image Extraction"
 
 
+class Class(BaseModel):
+    name: str
+    describtion: str
+
+
 class Task(BaseModel):
     type: TaskType
+    targets: List[Class]
     results: List[TaskResult]
 
     class Config:

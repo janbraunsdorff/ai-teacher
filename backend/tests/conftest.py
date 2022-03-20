@@ -1,10 +1,12 @@
 import datetime
+import inspect
 import sys
 from datetime import timedelta
 
 import mongomock
 import pytest
 from jose import jwt
+from mongomock.collection import Collection
 
 import app.services.user_service as us
 from app.database import collections
@@ -55,6 +57,9 @@ def patch_mongodb(monkeypatch, patch_security):
     monkeypatch.setitem(collections, "user", fake_user_collection)
     monkeypatch.setitem(collections, "project", fake_project_collection)
     monkeypatch.setitem(collections, "document", fake_documents_collection)
+
+    print(type(fake_documents_collection))
+    print(inspect.signature(Collection.update_many))
 
 
 @pytest.fixture

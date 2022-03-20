@@ -96,6 +96,7 @@ def save_document(files: List[str], project: Project, type: DocumentType):
                 ImageBoundingBoxTask(
                     type=task,
                     results=[],
+                    targets=[],
                     entities=[x.name for x in project.img_bounding_box_classes],
                 )
             )
@@ -104,6 +105,7 @@ def save_document(files: List[str], project: Project, type: DocumentType):
                 ImageClassificationTask(
                     type=task,
                     results=[],
+                    targets=[],
                     classes=[x.name for x in project.img_classes],
                 )
             )
@@ -112,6 +114,7 @@ def save_document(files: List[str], project: Project, type: DocumentType):
                 ImageExtractionTask(
                     type=task,
                     results=[],
+                    targets=[],
                     entities=[x.name for x in project.img_entities],
                 )
             )

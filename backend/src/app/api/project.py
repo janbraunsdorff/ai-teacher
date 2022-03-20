@@ -5,11 +5,13 @@ from fastapi import APIRouter, Depends
 import app.services.import_service as ims
 import app.services.project_service as ps
 from app.model.project_model import (
+    AddTargetRequest,
     CreateProject,
     ImageMeta,
     ImportRequest,
     ImportResponse,
     PossibleTask,
+    ResultObjectRespnse,
     ToggleTaskRequest,
     ToggleWorkerRequest,
     Worker,
@@ -87,3 +89,19 @@ def post_toggle_tasks(
     user: User = Depends(get_current_active_user),
 ):
     return ps.toggle_task(pid, cmd.task_id)
+
+
+@project_router.get(
+    "/{pid}/reuslt-object", response_model=List[ResultObjectRespnse]
+)
+def get_result_objects(pid, user: User = Depends(get_current_active_user)):
+    return ps.getResultObjects(pid)
+
+
+@project_router.post(
+    "/{pid}/add-target", response_model=List[ResultObjectRespnse]
+)
+def get_result_objects(
+    pid, cmd: AddTargetRequest, user: User = Depends(get_current_active_user)
+):
+    return ps.add_target(pid, cmd.task, cmd.name, cmd.describtion)

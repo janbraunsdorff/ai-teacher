@@ -4,7 +4,7 @@ from typing import List
 
 from pydantic import BaseModel, Field
 
-from app.model.document import TaskType
+from app.model.document import Class, TaskType
 
 
 class CreateProject(BaseModel):
@@ -15,11 +15,6 @@ class ProjectHeader(BaseModel):
     id: str
     name: str
     created: str
-
-
-class Class(BaseModel):
-    name: str
-    describtion: str
 
 
 class Project(BaseModel):
@@ -90,3 +85,15 @@ class PossibleTask(BaseModel):
 
 class ToggleTaskRequest(BaseModel):
     task_id: str
+
+
+class ResultObjectRespnse(BaseModel):
+    name: str
+    id: str
+    targets: List[Class]
+
+
+class AddTargetRequest(BaseModel):
+    task: str
+    name: str
+    describtion: str

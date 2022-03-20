@@ -7,19 +7,33 @@ from fastapi import HTTPException, status
 from PIL import Image
 
 import app.database.user as user_database
-from app.database.document import find_all_imanges_by_project
+from app.database import project
+from app.database.document import (
+    find_all_imanges_by_project,
+    push_class_document,
+    update_tasks,
+)
 from app.database.project import (
     all,
     get_by_id,
     insert_project,
+    push_class_project,
     toggle_active_tasks,
 )
-from app.model.document import Task, TaskType
+from app.model.document import (
+    ImageBoundingBoxTask,
+    ImageClassificationTask,
+    ImageExtractionTask,
+    Task,
+    TaskType,
+)
 from app.model.project_model import (
+    Class,
     ImageMeta,
     PossibleTask,
     Project,
     ProjectHeader,
+    ResultObjectRespnse,
     TaskShort,
     Worker,
 )
@@ -107,3 +121,79 @@ def get_tasks(pid):
 
 def toggle_task(pid: str, task_id: str):
     toggle_active_tasks(pid, task_id)
+    project = get_by_id(pid)
+    tasks = []
+    for task in project.tasks:
+        task = TaskType(task)
+        if task == TaskType.IMAGE_BOUNDINGBOX:
+            tasks.append(
+                ImageBoundingBoxTask(
+                    type=task,
+                    results=[],
+                    targets=[],
+                    entities=[x.name for x in project.img_bounding_box_classes],
+                )
+            )
+        if task == TaskType.IMAGE_CLASSIFICATION:
+            tasks.append(
+                ImageClassificationTask(
+                    type=task,
+                    results=[],
+                    targets=[],
+                    classes=[x.name for x in project.img_classes],
+                )
+            )
+        if task == TaskType.IMAGE_EXTRACTION:
+            tasks.append(
+                ImageExtractionTask(
+                    type=task,
+                    results=[],
+                    targets=[],
+                    entities=[x.name for x in project.img_entities],
+                )
+            )
+
+    update_tasks(pid, [task.dict() for task in tasks])
+
+
+def getResultObjects(pid: str):
+    project = get_by_id(pid)
+    tasks = []
+    for task in project.tasks:
+        task = TaskType(task)
+        tasks.append(
+            ResultObjectRespnse(
+                name=task.value,
+                id=task.name,
+                targets=get_targets(task, project),
+            )
+        )
+    return tasks
+
+
+def get_targets(task, project: Project):
+    conf = {
+        TaskType.IMAGE_BOUNDINGBOX: "img_bounding_box_classes",
+        TaskType.IMAGE_EXTRACTION: "img_entities",
+        TaskType.IMAGE_CLASSIFICATION: "img_classes",
+    }
+    return project.dict()[conf.get(task, "")]
+
+
+def add_target(pid: str, task: str, name: str, describtion: str):
+    conf = {
+        TaskType.IMAGE_BOUNDINGBOX: "img_bounding_box_classes",
+        TaskType.IMAGE_EXTRACTION: "img_entities",
+        TaskType.IMAGE_CLASSIFICATION: "img_classes",
+    }
+    push_class_project(
+        pid,
+        conf.get(TaskType[task]),
+        Class(name=name, describtion=describtion).dict(),
+    )
+
+    push_class_document(
+        pid,
+        TaskType[task].value,
+        Class(name=name, describtion=describtion).dict(),
+    )
