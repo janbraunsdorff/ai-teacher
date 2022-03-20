@@ -19,18 +19,16 @@ export class ClassesComponent implements OnInit {
   ngOnInit(): void {
     this.currentRoute.parent?.params.subscribe((val) => {
       this.project_id = val['id']
-      this.service.get_classes(this.project_id)
+      this.service.getProjectTasks(this.project_id)
     })
   }
 
-  save(){
-    this.service.add_class(this.project_id, this.name, this.desc)
+  save(id: string){
     this.name = ''
     this.desc = ''
   }
 
   deleteClass(cid: string){
-    this.service.deleteClass(this.project_id, cid)
   }
 
 }

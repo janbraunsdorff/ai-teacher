@@ -91,30 +91,6 @@ export class ProjectService {
       })
     }
 
-    add_class(pid: string, name: string, desc: string) {
-      this.client.post(environment.host + '/project/' + pid + '/classes', {name: name, description: desc}).subscribe(res =>{
-        this.get_classes(pid)
-      })
-    }
-
-
-    get_classes(pid: string) {
-      this.client.get<Class[]>(environment.host + '/project/' + pid + '/classes').subscribe(res => {
-        this.classes.next(res)
-      }, err => {
-        console.log(err)
-      })
-    }
-
-
-    deleteClass(pid: string, cid: string) {
-      this.client.delete(environment.host + '/project/' + pid + '/classes', {body: {class_id: cid}}).subscribe(res => {
-        this.get_classes(pid)
-      }, err => {
-        console.log(err)
-      })
-    }
-
 
     getExcercies(pid: string){
       this.client.get<Excercie[]>(environment.host + '/project/' + pid + '/teach').subscribe(res => {
