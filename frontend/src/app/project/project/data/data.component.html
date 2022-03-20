@@ -1,29 +1,14 @@
-<h1>Upload your data</h1>
+<h1>Import Data</h1>
 
-<p>Dublicated File names will not replaced!</p>
+<div class="import">
+    <mat-form-field appearance="fill" class="path">
+        <mat-label>Path to import</mat-label>
+        <input matInput [(ngModel)]="import_data.path">
+     </mat-form-field>
 
-
-<mat-progress-bar mode="determinate" [color]="'red'" [value]="progess" *ngIf="progess != null"></mat-progress-bar>
-
-<div class="upload">
-    <div class="select">
-        <mat-form-field appearance="fill">
-            <mat-label>Type of Data</mat-label>
-            <mat-select [(value)]="kind">
-                <mat-option *ngFor="let kind of kinds" [value]="kind.value">
-                    {{kind.view}}
-                </mat-option>
-            </mat-select>
-        </mat-form-field>
-    </div>
-
-    <label class="custom-file-upload"  (change)="selectFile(fileInput.files)">
-        <input type="file" #fileInput accept=".zip,.csv"/>
-        <span *ngIf="file == null">Upload new Datpoints (.zip | .csv)</span>
-        <span *ngIf="file != null">{{file?.name}}</span>
-    </label>
-
-    <app-submit (click)="upload()" [text]="'Add data'"></app-submit>
+     <div mat-dialog-actions class="save">
+        <app-submit (click)="import()" text="Import" ></app-submit>
+      </div>
 </div>
 
 <app-data-image></app-data-image>

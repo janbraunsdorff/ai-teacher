@@ -1,37 +1,16 @@
 h1, p {
-    margin: 16px 0 0 16px;
+    margin-top: 16px;
 }
 
 
-
-input[type="file"] {
-    display: none;
-}
-
-.custom-file-upload {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    cursor: pointer;
-    border: thin solid #aaa;
-    border-radius: 4px;
-    padding: 0 16px;
-    margin-bottom: 1.3em;
-}
-
-.select {
-    margin: auto 16px auto 0;
-    padding: 0;
-}
-
-
-.upload {
+.import {
+    margin-bottom: 32px;
+    padding-top: 16px;
     display: flex;
     flex-direction: row;
-    margin: 16px;
 
-    app-submit {
-        margin-left: 16px;
+    .path {
+        width: 33%;
+        margin-right: 16px;
     }
-
 }

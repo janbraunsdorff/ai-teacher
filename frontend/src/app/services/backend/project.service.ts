@@ -1,6 +1,6 @@
 import { HttpClient, HttpEventType } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
+import { Subject, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -15,6 +15,7 @@ export class ProjectService {
     public classes = new Subject<Class[]>();
     public excercies = new Subject<Excercie[]>();
     public audio = new Subject<AudioTextMeta[]>();
+    public import = new Subject<ImportResult>();
     
     constructor(private client: HttpClient) { }
 
@@ -37,26 +38,14 @@ export class ProjectService {
       })
     }
 
-    uploadData(file: File, projectId: string, kind: string) {
-      const body = new FormData()
-      body.append('kind', kind)
-      body.append('file', file)
-      this.client.post(environment.host + "/project/"+ projectId +"/data", body, {reportProgress: true, observe: 'events'})
-      .subscribe((res) => {
-        if (res.type === HttpEventType.UploadProgress) {
-          const percentDone = Math.round(100 * res.loaded / res.total!);
-          this.progess.next(percentDone)
-        }else if (res.type === HttpEventType.Response){
-          setTimeout(() => {
-            this.progess.next(null)
-          }, 1000);
-
+    postImport(data: any, projectId: string) {
+      return this.client.post<ImportResult>(environment.host + "/project/"+ projectId +"/import", data).subscribe(
+        (res) => {
+          this.import.next(res)
           this.getImageData(projectId)
-          this.getAudioTextData(projectId)
-        }
-      }, (err) => {
-        this.progess.next(null)
-      })
+        },(err) => {
+          console.log(err)
+        })
     }
 
     getImageData(projectId: string) {
@@ -145,7 +134,6 @@ export interface AudioTextMeta {
 
 }
 
-
 export interface Project {
   id: string,
   name: string,
@@ -172,7 +160,7 @@ export interface Task{
 
 export interface Labler {
   name: string,
-  worker_id: string,
+  id: string,
   alias: string,
   is_worker: string
 }
@@ -191,4 +179,9 @@ export interface Excercie {
   processed: number,
   total: number,
   data_type: string
+}
+
+export interface ImportResult {
+  num_imported: number
+  error_files: string[]
 }

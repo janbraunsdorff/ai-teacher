@@ -10,16 +10,10 @@ import { ProjectService } from 'src/app/services/backend/project.service';
 })
 export class DataComponent implements OnInit {
   project_id: string = '';
-  file: File | null = null
-  kind: string = ''
-  progess: number | null = null
-
-  kinds = [
-    {view: 'Image', value: 'image'},
-    {view: 'Text', value: 'text'},
-    {view: 'Voice', value: 'voice'},
-  ]
-
+  import_data = {
+    path: ""
+  }
+  
   constructor(private currentRoute: ActivatedRoute, private service: ProjectService) { }
 
   ngOnInit(): void {
@@ -28,16 +22,11 @@ export class DataComponent implements OnInit {
     })
   }
 
-  selectFile(files: FileList | null) {
-    this.file = files![0]
-  }
 
-  upload(){
-    if (this.file != null){
-      this.service.progess.subscribe((progress) => {
-        this.progess = progress
-      })
-      this.service.uploadData(this.file, this.project_id, this.kind)
+  import(){
+    if (this.import_data.path != "") {
+      this.service.postImport(this.import_data, this.project_id)
+      this.import_data.path = ""
     }
   }
 

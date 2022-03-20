@@ -22,7 +22,7 @@ export class WorkerDetailComponent implements OnInit {
   }
 
   toggle() {
-    this.service.toggleWorker(this.project_id, this.worker.worker_id)
+    this.service.toggleWorker(this.project_id, this.worker.id)
   }
 
 }
