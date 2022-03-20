@@ -3,3 +3,6 @@ python-jose[cryptography]==3.3.0
 passlib[bcrypt]==1.7.4
 gunicorn==20.1.0
 pymongo[snappy,gssapi,srv,tls]==4.0.2
+filetype==1.0.10
+Pillow==9.0.1
+pdf2image==1.16.0

@@ -2,6 +2,8 @@ FROM python:3.9
 
 WORKDIR /
 
+RUN apt -y install poppler-utils
+
 ADD requirements.txt /requirements.txt
 RUN pip install -r /requirements.txt
 

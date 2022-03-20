@@ -67,7 +67,6 @@ def get_password_hash(password):
 
 def get_user(alias: str):
     user = find_by_alias(alias)
-    print(user)
     return user
 
 
@@ -130,7 +129,7 @@ def create_user(alias: str, password: str, name: str):
         name=name,
         password=get_password_hash(password),
         roles=["worker"],
-        working_on=[]
+        working_on=[],
     )
     if get_user(alias) is not None:
         raise HTTPException(status_code=409, detail="User already exists")

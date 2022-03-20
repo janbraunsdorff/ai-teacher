@@ -50,9 +50,11 @@ def patch_mongodb(monkeypatch, patch_security):
     fake_db = client["teacher"]
     fake_user_collection = fake_db["user"]
     fake_project_collection = fake_db["project"]
+    fake_documents_collection = fake_db["document"]
 
     monkeypatch.setitem(collections, "user", fake_user_collection)
     monkeypatch.setitem(collections, "project", fake_project_collection)
+    monkeypatch.setitem(collections, "document", fake_documents_collection)
 
 
 @pytest.fixture
@@ -65,9 +67,10 @@ def fake_user(monkeypatch, patch_mongodb, freeze_time):
         "password": us.get_password_hash(password),
         "name": "username",
         "roles": ["worker"],
+        "working_on": [],
     }
 
-    collections["user"].insert_one(user)
+    user["id"] = str(collections["user"].insert_one(user).inserted_id)
 
     to_encode = {"sub": alias}
     to_encode.update(
@@ -88,14 +91,17 @@ def fake_user_disabled(monkeypatch, patch_mongodb, freeze_time):
         "password": us.get_password_hash(password),
         "name": "username",
         "roles": ["worker"],
+        "working_on": [],
     }
 
-    collections["user"].insert_one(user)
+    user["id"] = str(collections["user"].insert_one(user).inserted_id)
 
     to_encode = {"sub": alias}
     to_encode.update(
         {"exp": datetime.datetime.utcnow() + timedelta(minutes=30)}
     )
     encoded_jwt = jwt.encode(to_encode, us.SECRET_KEY, algorithm=us.ALGORITHM)
+
+    print(user)
 
     yield (user, encoded_jwt, password)

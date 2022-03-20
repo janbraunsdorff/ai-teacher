@@ -13,9 +13,12 @@ client = TestClient(api)
 def test_get_all_projects_one(fake_user):
     user, jwt, _ = fake_user
     time = int(datetime.datetime.utcnow().timestamp() * 1000)
-    pid = "anyPId"
 
-    projects = [Project(name="p1", owner=user["alias"], created=time).dict()]
+    projects = [
+        Project(
+            name="p1", owner=user["alias"], created=time, tasks=[], classes=[]
+        ).dict()
+    ]
 
     project_ids = collections["project"].insert_many(projects)
 

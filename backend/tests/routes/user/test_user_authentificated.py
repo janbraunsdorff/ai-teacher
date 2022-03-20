@@ -51,8 +51,11 @@ def test_get_self(fake_user):
     user, jwt, _ = fake_user
     res = client.get("/user/self", headers={"Authorization": f"bearer {jwt}"})
 
+    print(user)
+
     del user["password"]
     del user["_id"]
+    del user["id"]
     assert res.status_code == 200
     assert res.json() == json.loads(json.dumps(user))
 
@@ -65,6 +68,9 @@ def test_get_self_cookie(fake_user):
 
     del user["password"]
     del user["_id"]
+    del user["id"]
+
+    print(user)
     assert res.status_code == 200
     assert res.json() == json.loads(json.dumps(user))
 

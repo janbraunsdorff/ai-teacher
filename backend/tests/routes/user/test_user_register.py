@@ -43,12 +43,13 @@ def test_register_new_accont_store(fake_user):
 
     user = collections["user"].find_one({"alias": test_username})
 
-    for value in ["alias", "roles", "name", "password", "_id"]:
+    for value in ["alias", "roles", "name", "password", "_id", "working_on"]:
         assert value in user
 
     assert user["alias"] == "user2"
     assert user["roles"] == ["worker"]
     assert user["name"] == "Jan2"
+    assert user["working_on"] == []
 
 
 def test_register_existing_username(fake_user):
