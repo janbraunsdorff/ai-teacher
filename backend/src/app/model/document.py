@@ -25,7 +25,7 @@ class ImageBoundingBoxResult(TaskResult):
 
 
 class ImageClassificationResult(TaskResult):
-    clazz: str = Field(alias="class")
+    clazz: str
 
 
 class ImageExtraction(TaskResult):
@@ -49,7 +49,7 @@ class Class(BaseModel):
 class Task(BaseModel):
     type: TaskType
     targets: List[Class]
-    results: List[TaskResult]
+    results: List[Union[ImageBoundingBoxResult, ImageClassificationResult, ImageExtraction]]
 
     class Config:
         use_enum_values = True
@@ -83,6 +83,7 @@ class Document(BaseModel):
     type: DocumentType
     files: List[str]
     num_result: int
+    last_request: int
     tasks: List[
         Union[
             ImageBoundingBoxTask, ImageClassificationTask, ImageExtractionTask

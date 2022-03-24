@@ -1,6 +1,7 @@
 from __future__ import annotations
 
-from typing import List
+from typing import Any, Dict, List
+from unittest import result
 
 from pydantic import BaseModel, Field
 
@@ -74,6 +75,7 @@ class ImageMeta(BaseModel):
     name: str
     shape: str
     tasks: List[TaskShort]
+    results: Dict[str, Any]
 
 
 class PossibleTask(BaseModel):
@@ -97,3 +99,9 @@ class AddTargetRequest(BaseModel):
     task: str
     name: str
     describtion: str
+
+class Excercies(BaseModel):
+    task_name: str
+    data_type: str
+    processed: int
+    total: int

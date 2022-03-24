@@ -19,7 +19,7 @@ def test_get_targets_no_presents(fake_user):
     pid = inser_project(user)[0]["id"]
 
     res = client.get(
-        f"/project/{pid}/reuslt-object",
+        f"/project/{pid}/targets",
         headers={"Authorization": f"bearer {jwt}"},
     )
 
@@ -32,7 +32,7 @@ def test_get_targets_one_task_zero_classes_bb(fake_user):
     pid = inser_project(user, tasks=[TaskType.IMAGE_BOUNDINGBOX])[0]["id"]
 
     res = client.get(
-        f"/project/{pid}/reuslt-object",
+        f"/project/{pid}/targets",
         headers={"Authorization": f"bearer {jwt}"},
     )
 
@@ -51,7 +51,7 @@ def test_get_targets_one_task_one_classes_bb(fake_user):
     )[0]["id"]
 
     res = client.get(
-        f"/project/{pid}/reuslt-object",
+        f"/project/{pid}/targets",
         headers={"Authorization": f"bearer {jwt}"},
     )
 
@@ -69,7 +69,7 @@ def test_get_targets_one_task_zero_classes_cls(fake_user):
     pid = inser_project(user, tasks=[TaskType.IMAGE_CLASSIFICATION])[0]["id"]
 
     res = client.get(
-        f"/project/{pid}/reuslt-object",
+        f"/project/{pid}/targets",
         headers={"Authorization": f"bearer {jwt}"},
     )
 
@@ -88,7 +88,7 @@ def test_get_targets_one_task_one_classes_cls(fake_user):
     )[0]["id"]
 
     res = client.get(
-        f"/project/{pid}/reuslt-object",
+        f"/project/{pid}/targets",
         headers={"Authorization": f"bearer {jwt}"},
     )
 
@@ -106,7 +106,7 @@ def test_get_targets_one_task_zero_classes_ext(fake_user):
     pid = inser_project(user, tasks=[TaskType.IMAGE_EXTRACTION])[0]["id"]
 
     res = client.get(
-        f"/project/{pid}/reuslt-object",
+        f"/project/{pid}/targets",
         headers={"Authorization": f"bearer {jwt}"},
     )
 
@@ -125,7 +125,7 @@ def test_get_targets_one_task_one_classes_ext(fake_user):
     )[0]["id"]
 
     res = client.get(
-        f"/project/{pid}/reuslt-object",
+        f"/project/{pid}/targets",
         headers={"Authorization": f"bearer {jwt}"},
     )
 

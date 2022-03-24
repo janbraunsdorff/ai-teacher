@@ -7,11 +7,12 @@ from fastapi import HTTPException, status
 from PIL import Image
 
 import app.database.user as user_database
-from app.database import project
 from app.database.document import (
     find_all_imanges_by_project,
     push_class_document,
-    update_tasks,
+    pull_task,
+    delete_task_document,
+    push_new_task
 )
 from app.database.project import (
     all,
@@ -19,6 +20,7 @@ from app.database.project import (
     insert_project,
     push_class_project,
     toggle_active_tasks,
+    delete_class_project
 )
 from app.model.document import (
     ImageBoundingBoxTask,
@@ -29,6 +31,7 @@ from app.model.document import (
 )
 from app.model.project_model import (
     Class,
+    Excercies,
     ImageMeta,
     PossibleTask,
     Project,
@@ -98,12 +101,31 @@ def get_images(pid):
         img = base64.b64decode(doc.files[0])
         shape = str(Image.open(io.BytesIO(img)).size)
         tasks = prettify_tasks(doc.tasks)
-        res.append(ImageMeta(name=name, shape=shape, tasks=tasks))
+        result = extract_results(doc.tasks)
+        res.append(
+            ImageMeta(
+                name=name, 
+                shape=shape, 
+                tasks=tasks,
+                results=result
+            )
+        )
     return res
 
 
 def prettify_tasks(tasks: List[Task]) -> List[TaskShort]:
-    return [TaskShort(name=x.type, done=False) for x in tasks]
+    return [TaskShort(name=x.type, done=len(x.results) >= 1) for x in tasks]
+
+def extract_results(tasks: List[Task]):
+    config = {}
+
+    for task in tasks:
+        if len(task.results) >= 1:
+            config[task.type] = task.results[0]
+
+    return config
+
+    
 
 
 def get_tasks(pid):
@@ -120,40 +142,40 @@ def get_tasks(pid):
 
 
 def toggle_task(pid: str, task_id: str):
-    toggle_active_tasks(pid, task_id)
-    project = get_by_id(pid)
-    tasks = []
-    for task in project.tasks:
-        task = TaskType(task)
-        if task == TaskType.IMAGE_BOUNDINGBOX:
-            tasks.append(
-                ImageBoundingBoxTask(
-                    type=task,
+    # TODO delete existing labels by updating
+    tasks, to_add = toggle_active_tasks(pid, task_id)
+    if to_add:
+        project = get_by_id(pid)
+
+        if task_id == TaskType.IMAGE_BOUNDINGBOX.name:
+            obj = ImageBoundingBoxTask(
+                    type=TaskType.IMAGE_BOUNDINGBOX.value,
                     results=[],
-                    targets=[],
-                    entities=[x.name for x in project.img_bounding_box_classes],
+                    targets=project.img_bounding_box_classes,
+                    entities=[],
                 )
+            
+        if task_id == TaskType.IMAGE_CLASSIFICATION.name:
+            obj = ImageClassificationTask(
+                    type=TaskType.IMAGE_CLASSIFICATION.value,
+                    results=[],
+                    targets=project.img_classes,
+                    classes=[],
             )
-        if task == TaskType.IMAGE_CLASSIFICATION:
-            tasks.append(
-                ImageClassificationTask(
-                    type=task,
+        if task_id == TaskType.IMAGE_EXTRACTION.name:
+            obj = ImageExtractionTask(
+                    type=TaskType.IMAGE_EXTRACTION.value,
                     results=[],
-                    targets=[],
-                    classes=[x.name for x in project.img_classes],
-                )
-            )
-        if task == TaskType.IMAGE_EXTRACTION:
-            tasks.append(
-                ImageExtractionTask(
-                    type=task,
-                    results=[],
-                    targets=[],
-                    entities=[x.name for x in project.img_entities],
-                )
+                    targets=project.img_entities,
+                    entities=[],
             )
 
-    update_tasks(pid, [task.dict() for task in tasks])
+        push_new_task(pid, obj.dict())
+
+    else:
+
+        pull_task(pid, TaskType[task_id].value)
+
 
 
 def getResultObjects(pid: str):
@@ -197,3 +219,48 @@ def add_target(pid: str, task: str, name: str, describtion: str):
         TaskType[task].value,
         Class(name=name, describtion=describtion).dict(),
     )
+
+
+def delete_target(pid: str, task: str, name: str, describtion: str):
+    conf = {
+        TaskType.IMAGE_BOUNDINGBOX: "img_bounding_box_classes",
+        TaskType.IMAGE_EXTRACTION: "img_entities",
+        TaskType.IMAGE_CLASSIFICATION: "img_classes",
+    }
+
+    delete_class_project(
+        pid,
+        conf.get(TaskType[task]),
+        Class(name=name, describtion=describtion).dict(),
+    )
+
+    delete_task_document(
+        pid,
+        TaskType[task].value,
+        Class(name=name, describtion=describtion).dict()
+    )
+
+
+def get_exercises(pid: str) -> List[Excercies]:
+    project = get_by_id(pid) 
+    docs = find_all_imanges_by_project(pid)
+    docs = map(lambda x: x.tasks, docs)
+    docs = list(docs)
+    docs = [item for sublist in docs for item in sublist]
+
+    res = []
+
+    for x in project.tasks:
+        doc_tasks = filter(lambda y: y.type == x, docs)
+        doc_tasks = list(doc_tasks)
+        doc_done = list(filter(lambda y: len(y.results) >= 1,doc_tasks))
+        res.append(
+            Excercies(
+                task_name=x, 
+                data_type="Image", 
+                processed=len(doc_done),
+                total=len(doc_tasks)
+            )
+        )
+
+    return res

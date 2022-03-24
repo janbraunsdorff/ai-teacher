@@ -28,17 +28,24 @@ def toggle_active_tasks(pid: str, task_id: str) -> List[TaskType]:
     tasks = collections["project"].find_one({"_id": ObjectId(pid)})["tasks"]
     if task.value in tasks:
         tasks.remove(task.value)
+        to_add = False
     else:
         tasks.append(task.value)
+        to_add = True
 
     collections["project"].update_one(
         {"_id": ObjectId(pid)}, {"$set": {"tasks": tasks}}
     )
 
-    return tasks
+    return tasks, to_add
 
 
 def push_class_project(pid, key, obj):
     collections["project"].update_one(
         {"_id": ObjectId(pid)}, {"$push": {key: obj}}
+    )
+
+def delete_class_project(pid, key, obj):
+    collections["project"].update_one(
+        {"_id": ObjectId(pid)}, {"$pull": {key: obj}}
     )

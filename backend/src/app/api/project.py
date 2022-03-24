@@ -15,6 +15,7 @@ from app.model.project_model import (
     ToggleTaskRequest,
     ToggleWorkerRequest,
     Worker,
+    Excercies
 )
 from app.model.user_models import User
 from app.services.user_service import get_current_active_user
@@ -92,7 +93,7 @@ def post_toggle_tasks(
 
 
 @project_router.get(
-    "/{pid}/reuslt-object", response_model=List[ResultObjectRespnse]
+    "/{pid}/targets", response_model=List[ResultObjectRespnse]
 )
 def get_result_objects(pid, user: User = Depends(get_current_active_user)):
     return ps.getResultObjects(pid)
@@ -102,6 +103,22 @@ def get_result_objects(pid, user: User = Depends(get_current_active_user)):
     "/{pid}/add-target", response_model=List[ResultObjectRespnse]
 )
 def get_result_objects(
-    pid, cmd: AddTargetRequest, user: User = Depends(get_current_active_user)
+    pid, cmd: AddTargetRequest, 
+    user: User = Depends(get_current_active_user)
 ):
     return ps.add_target(pid, cmd.task, cmd.name, cmd.describtion)
+
+
+@project_router.post("/{pid}/delete-target")
+def post_delete_target(
+    pid,
+    cmd: AddTargetRequest,
+    user: User = Depends(get_current_active_user)
+):
+    ps.delete_target(pid, cmd.task, cmd.name, cmd.describtion)
+    
+
+@project_router.get("/{pid}/teach", response_model=List[Excercies])
+def get_teach(pid, user: User = Depends(get_current_active_user)):
+    return ps.get_exercises(pid)
+
