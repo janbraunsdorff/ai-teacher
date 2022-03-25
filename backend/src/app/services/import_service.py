@@ -32,8 +32,8 @@ def import_and_convert_to_default(path: str, pid: str):
     project = get_by_id(pid)
     unknown_filetype = []
     imported = 0
-    for file in files:
-        file = f"{path}/{file}"
+    for file_name in files:
+        file = f"{path}/{file_name}"
         b64Files = []
         kind = filetype.guess(file)
         if kind is None:
@@ -46,7 +46,7 @@ def import_and_convert_to_default(path: str, pid: str):
         elif kind.mime in supported_archieves:
             b64Files.extend(convert_pdf_to_png(file))
 
-        save_document(b64Files, project, get_document_type(kind.mime))
+        save_document(b64Files, project, get_document_type(kind.mime), file)
         imported += 1
 
     return imported, unknown_filetype
@@ -87,7 +87,7 @@ def convert_pil_to_base64(img=Image) -> str:
     return b64Image
 
 
-def save_document(files: List[str], project: Project, type: DocumentType):
+def save_document(files: List[str], project: Project, type: DocumentType, original_name:str):
     tasks = []
     for task in project.tasks:
         task = TaskType(task)
@@ -121,6 +121,7 @@ def save_document(files: List[str], project: Project, type: DocumentType):
 
     document = Document(
         _id="",
+        original_name=original_name,
         project=project.id,
         type=type,
         files=files,

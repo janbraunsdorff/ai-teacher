@@ -72,6 +72,7 @@ class TaskShort(BaseModel):
 
 
 class ImageMeta(BaseModel):
+    org_name: str
     name: str
     shape: str
     tasks: List[TaskShort]

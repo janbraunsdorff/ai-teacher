@@ -104,3 +104,10 @@ def update_class(pid, did, data, task_type: TaskType):
         update={"$push": {"tasks.$[x].results": data.dict()}},
         array_filters=[{"x.type": {"$eq": task_type.value}}]
     )
+
+def remove_lables(pid: str, doc_id: str, type: str):
+    collections[db_name].update_one(
+        filter={"project": pid, "_id": ObjectId(doc_id)},
+        update={"$set": {"tasks.$[x].results": []}},
+        array_filters=[{"x.type": {"$eq": type}}]
+    )

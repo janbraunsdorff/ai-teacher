@@ -89,6 +89,7 @@ def post_toggle_tasks(
     cmd: ToggleTaskRequest,
     user: User = Depends(get_current_active_user),
 ):
+    ps.check_for_project_owner(user, pid)
     return ps.toggle_task(pid, cmd.task_id)
 
 
@@ -106,6 +107,7 @@ def get_result_objects(
     pid, cmd: AddTargetRequest, 
     user: User = Depends(get_current_active_user)
 ):
+    ps.check_for_project_owner(user, pid)
     return ps.add_target(pid, cmd.task, cmd.name, cmd.describtion)
 
 
@@ -115,6 +117,7 @@ def post_delete_target(
     cmd: AddTargetRequest,
     user: User = Depends(get_current_active_user)
 ):
+    ps.check_for_project_owner(user, pid)
     ps.delete_target(pid, cmd.task, cmd.name, cmd.describtion)
     
 

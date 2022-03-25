@@ -12,7 +12,8 @@ from app.database.document import (
     push_class_document,
     pull_task,
     delete_task_document,
-    push_new_task
+    push_new_task,
+    remove_lables
 )
 from app.database.project import (
     all,
@@ -107,7 +108,8 @@ def get_images(pid):
                 name=name, 
                 shape=shape, 
                 tasks=tasks,
-                results=result
+                results=result,
+                org_name=doc.original_name
             )
         )
     return res
@@ -264,3 +266,6 @@ def get_exercises(pid: str) -> List[Excercies]:
         )
 
     return res
+
+def relabel(pid: str, doc_id: str, task: TaskType):
+    remove_lables(pid, doc_id, task.value)

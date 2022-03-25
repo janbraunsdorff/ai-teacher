@@ -134,3 +134,11 @@ def create_user(alias: str, password: str, name: str):
         raise HTTPException(status_code=409, detail="User already exists")
 
     insert_user(user)
+
+def check_if_lable(user: User, pid: str):
+    if pid not in user.working_on:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Invalid permissions",
+        )
+        

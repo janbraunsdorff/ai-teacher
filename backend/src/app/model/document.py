@@ -80,6 +80,7 @@ class DocumentType(Enum):
 class Document(BaseModel):
     id: str = Field(default="", alias="_id")
     project: str
+    original_name: str
     type: DocumentType
     files: List[str]
     num_result: int
