@@ -1,11 +1,11 @@
 import base64
 import io
-from typing import Optional, Tuple
+from typing import Dict, List, Optional, Tuple, Union
 from PIL import Image
 
 from app.database.document import get_images_from_document, get_latest_request, update_class
-from app.model.document import ImageClassificationResult, TaskType
-from app.model.image_model import NextImage, ClassificationTargets
+from app.model.document import ImageClassificationResult, ImageExtraction, TaskType
+from app.model.image_model import Entity, NextImage, ClassificationTargets
 
 
 def get_image_data(pid, iid):
@@ -35,5 +35,13 @@ def get_next_image(pid: str, type: TaskType) -> Optional[NextImage]:
 
 
 def classifiy(pid: str, did: str, uid: str, clazz: str, task_type: TaskType):
-    res = ImageClassificationResult(worker_id=uid, clazz=clazz)
+    res = ImageClassificationResult(worker_id=uid, clazz=clazz).dict()
     update_class(pid, did, res, task_type)
+
+def extract(pid: str, uid: str, did: str, res: List[Entity], type: TaskType):
+    values: Dict[str, Union[str, int]] = {}
+    for entity in res:
+        values[entity.lable] = entity.value
+
+    res = ImageExtraction(worker_id=uid, data=values).dict()
+    update_class(pid, did, res, type)

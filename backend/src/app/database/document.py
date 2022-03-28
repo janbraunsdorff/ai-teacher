@@ -101,7 +101,7 @@ def get_latest_request(pid: str, type: TaskType):
 def update_class(pid, did, data, task_type: TaskType):
     collections[db_name].update_one(
         filter={"project": pid, "_id": ObjectId(did)},
-        update={"$push": {"tasks.$[x].results": data.dict()}},
+        update={"$push": {"tasks.$[x].results": data}},
         array_filters=[{"x.type": {"$eq": task_type.value}}]
     )
 

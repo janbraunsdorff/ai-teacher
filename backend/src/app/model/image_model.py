@@ -16,3 +16,11 @@ class NextImage(BaseModel):
 class ClassificationResult(BaseModel):
     class_name: str
     document_id: str
+
+class Entity(BaseModel):
+    lable: str
+    value: str
+
+class ImageExtractionResult(BaseModel):
+    id: str
+    res: List[Entity]
