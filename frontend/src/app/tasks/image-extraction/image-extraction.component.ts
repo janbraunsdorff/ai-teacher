@@ -13,17 +13,19 @@ export class ImageExtractionComponent implements OnInit {
   img = ''
   pid = ''
   host = environment.host
+  width = 100
 
 
 
-  entities: {label: string, value: string, class_id: string, img_id: string}[] = []
+  entities: {label: string, value: string, img_id: string}[] = []
 
   constructor(private service: ImageService, private currentRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
     this.service.extraction.subscribe(res => {
       this.entities = []
-      res.classes.forEach(c => this.entities.push({label: c.name, value: '', class_id: c.id, img_id: res.id}))
+      this.width = res.width
+      res.classes.forEach(c => this.entities.push({label: c.name, value: '', img_id: res.id}))
       this.img = this.host + '/images/' + this.pid  +'/' +  res.id
 
     })
@@ -36,9 +38,9 @@ export class ImageExtractionComponent implements OnInit {
   }
 
   send() {
-    this.entities.forEach(e => this.service.extract(this.pid, e.img_id, e.class_id, e.value))
-    this.service.getNextExtraction(this.pid)
-
+    const payload: {id: string, res: {lable: string, value: string}[]} = {id: this.entities[0].img_id, res: []}
+    this.entities.forEach(e => payload.res.push({lable: e.label, value: e.value}))
+    this.service.extract(this.pid, payload)
   }
 
 }

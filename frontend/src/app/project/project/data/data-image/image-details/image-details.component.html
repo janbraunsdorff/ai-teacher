@@ -1,8 +1,9 @@
 <div class="data" (click)="toggle()">
     <div class="image">
-        <div class="name">{{img.name}}</div>
+        <!--<div class="name">{{img.name}}</div>-->
+        <div class="name">{{img.org_name}}</div>
         <div class="shape">{{img.shape}}</div>
-        <div class="tasks">
+        <div class="tasks" *ngIf="!open" >
             <div class="task" [class.done]="task.done" *ngFor="let task of img.tasks">{{task.name}}</div>
         </div>
     </div>
@@ -10,28 +11,47 @@
     
     <div *ngIf="open" class="details"> 
         <div class="img">
-            <h2>Raw Image</h2>
+            <div class="header">                
+                <h2>Original Image</h2>
+            </div>
             <img [src]="image_host">
         </div>
 
         <div class="img">
-            <h2>Bounding Box</h2>
+            <div class="header">                
+                <h2>Bounding Box</h2>
+                <img src="assets/icon/relable.svg">
+            </div>
             <div class="dummy"> </div>
         </div>
 
         <div class="img">
-            <h2>Segmentation</h2>
+            <div class="header">                
+                <h2>Segementation</h2>
+                <img src="assets/icon/relable.svg">
+            </div>
             <div class="dummy"> </div>
         </div>
 
         <div class="img">
-            <h2>Classification</h2>
-            <div class="dummy"> </div>
+            <div class="header">                
+                <h2>Classification</h2>
+                <img src="assets/icon/relable.svg" (click)="relabel('relabel-classify')">
+            </div>
+            <div class="dummy text"> {{img.results?.["Image Classification"]?.["clazz"]}} </div>
         </div>
 
         <div class="img">
-            <h2>Extraction</h2>
-            <div class="dummy"> </div>
+            <div class="header">                
+                <h2>Extraction</h2>
+                <img src="assets/icon/relable.svg" (click)="relabel('relabel-extraction')">
+            </div>
+            <div class="dummy text"> 
+                <div *ngFor="let x of img.results?.['Image Extraction']?.['data']" class="key-value">
+                    <span class="key">{{x.key}}: </span>
+                    <span class="value">{{x.value}}</span>
+                </div>
+            </div>
         </div>
         
     </div>

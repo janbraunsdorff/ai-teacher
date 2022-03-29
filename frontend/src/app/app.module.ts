@@ -55,6 +55,7 @@ import { WorkerDetailComponent } from './project/project/worker/worker-detail/wo
 import { TeachComponent } from './project/project/teach/teach.component';
 import { ClassesComponent } from './project/project/classes/classes.component';
 import { DataAudioTextComponent } from './project/project/data/data-audio-text/data-audio-text.component';
+import { ClassComponent } from './project/project/classes/class/class.component';
 
 
 
@@ -90,6 +91,7 @@ import { DataAudioTextComponent } from './project/project/data/data-audio-text/d
     TeachComponent,
     ClassesComponent,
     DataAudioTextComponent,
+    ClassComponent,
   ],
   imports: [
     BrowserModule,

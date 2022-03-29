@@ -15,9 +15,9 @@ export class ImageSegExtComponent implements OnInit {
   delete: Subject<void> = new Subject<void>();
 
   public segement: Segements[] = [
-    {label: 'Firstname', segements: [], value: '', id: ''},
-    {label: 'Lastname', segements: [], value: '', id: ''},
-    {label: 'Birthday', segements: [], value: '', id: ''}
+    {label: 'Firstname', segements: [], value: ''},
+    {label: 'Lastname', segements: [], value: ''},
+    {label: 'Birthday', segements: [], value: ''}
   ]
 
   public activate = ''

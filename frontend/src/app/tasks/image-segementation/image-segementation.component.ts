@@ -47,7 +47,7 @@ export class ImageSegementationComponent implements OnInit, OnDestroy  {
       this.start = {x: -1, y: -1}
 
       for (let clazz of res.classes) {        
-        this.segement.push({label: clazz.name, id: clazz.id, segements: []})
+        this.segement.push({label: clazz.name, segements: []})
       }
     })
 
@@ -103,7 +103,7 @@ export class ImageSegementationComponent implements OnInit, OnDestroy  {
   }
 
   send(){
-    this.segement.forEach(s => this.image_service.boundingbox(this.pid, s.id, this.img_id, s.segements[0], s.value))
+    this.segement.forEach(s => this.image_service.boundingbox(this.pid, this.img_id, s.segements[0], s.value))
     this.image_service.getNextBoudingBox(this.pid)
 
   }

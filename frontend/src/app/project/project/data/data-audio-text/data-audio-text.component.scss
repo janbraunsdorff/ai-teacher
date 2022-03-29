@@ -13,7 +13,7 @@ h1 {
     border-bottom: thin solid #555;
 
     &:hover {
-        background-color: #777;
+        background-color: var(--background-02);
         border-radius: 8px;
     }
 
@@ -35,7 +35,7 @@ h1 {
 
         .task {
             padding: 8px 16px;
-            background-color: rgba(153, 0, 0, 0.35);
+            background-color: rgba(255, 0, 0, 0.38);
             border-radius: 20em;
         }
 

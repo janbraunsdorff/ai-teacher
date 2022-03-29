@@ -9,26 +9,13 @@ import { ProjectService } from 'src/app/services/backend/project.service';
 })
 export class ClassesComponent implements OnInit {
 
-  name: string = ''
-  desc: string = ''
-
-  project_id: string = ''
-
   constructor(public service: ProjectService, private currentRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
     this.currentRoute.parent?.params.subscribe((val) => {
-      this.project_id = val['id']
-      this.service.getProjectTasks(this.project_id)
+      const project_id = val['id']
+      this.service.getTargets(project_id)
     })
-  }
-
-  save(id: string){
-    this.name = ''
-    this.desc = ''
-  }
-
-  deleteClass(cid: string){
   }
 
 }

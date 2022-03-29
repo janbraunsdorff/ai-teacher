@@ -21,6 +21,9 @@ export class CanvasComponent implements AfterViewInit, OnInit {
   @Input('segement') segement: Segements[];
   @Input('showEvent') showEvent: Observable<string>;
   @Input('delete') delete: Observable<void>;
+  @Input('width') width: number;
+  @Input('height') height: number;
+  
   ctx: any = {}
 
 

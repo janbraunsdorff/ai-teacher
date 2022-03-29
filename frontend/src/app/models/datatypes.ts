@@ -1,6 +1,5 @@
 export interface Segements {
     label: string;
-    id: string
     segements:  Segement[];
     value?: string
   }

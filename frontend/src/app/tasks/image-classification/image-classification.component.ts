@@ -69,7 +69,7 @@ export class ImageClassificationComponent implements OnInit {
       const idx = this.key.findIndex(r => r == key)
       const cls =  this.classes[idx]
       if (cls != undefined) {
-        this.selected = cls.id
+        this.selected = cls.name
       }  
       
       if (this.auto) {

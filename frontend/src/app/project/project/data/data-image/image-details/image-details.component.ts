@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { ImageService } from 'src/app/services/backend/image.service';
 import { ImageMeta } from 'src/app/services/backend/project.service';
 import { environment } from 'src/environments/environment';
 
@@ -13,6 +14,8 @@ export class ImageDetailsComponent implements OnInit {
     name: '',
     shape: '',
     tasks: [],
+    results: {},
+    org_name: ''
   };
 
   @Input() pid: string = ''
@@ -20,7 +23,7 @@ export class ImageDetailsComponent implements OnInit {
   image_host = ''
 
 
-  constructor() { }
+  constructor(private service: ImageService) { }
 
   ngOnInit(): void {
   }
@@ -33,6 +36,10 @@ export class ImageDetailsComponent implements OnInit {
       this.image_host = environment.host + "/images/"+ this.pid +  "/" + this.img.name
       this.open = true 
     }
+  }
+
+  relabel(type: string){
+    this.service.relabel(this.pid, this.img.name, type)
   }
 
 }

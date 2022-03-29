@@ -3,20 +3,22 @@
 }
 
 .segemetation {
-    display: flex;
-    flex-direction: row;
+    display: grid;
     gap: 64px;
-
-
-    .image {    
-        width: calc(40% - 32px);
+    width: 100%;
+   
+    .image {
+        width: 100%;
     }
+
+
+
 
     .classes {
         width: 100%;
         font-size: 16px;
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
         gap: 8px;
 
         .class {

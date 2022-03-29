@@ -1,0 +1,28 @@
+<div class="form">
+    <form>
+        <h2>{{class.name}}</h2>
+        <mat-form-field class="name" appearance="fill">
+        <mat-label>Class Name</mat-label>
+        <input matInput [maxLength]="256" placeholder="Class Name" [(ngModel)]="name" name="Name">
+        </mat-form-field>
+
+        <mat-form-field class="description" appearance="fill">
+            <mat-label>Description</mat-label>
+            <input matInput [maxLength]="256" placeholder="Description" [(ngModel)]="desc" name="desc">
+        </mat-form-field>
+
+        <app-submit [text]="'Create'" (click)="save(class.id)"></app-submit>
+    </form>      
+</div>
+<div class="classes">
+    <div class="class choosen" *ngFor="let x of class.targets">
+        <div class="selected" (click)="deleteClass(class.id, x.name, x.describtion)">
+            <div class="idicator">
+                <img src="assets/icon/delete.svg">
+            </div>
+        </div>
+        <div class="name">{{x.name}}</div>
+        <div class="data">Datapoints: {{x.connected_points}}</div>
+        <div class="data">{{x.describtion}}</div>
+    </div>
+</div>

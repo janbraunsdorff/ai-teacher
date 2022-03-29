@@ -1,26 +1,27 @@
-<h1>Image Segemation</h1>
+<h1>Image Extraction</h1>
 
-<div class="segemetation">
+<div class="segemetation" [style.grid-template-columns]="width + 'px auto'">
     <div class="image">
         <app-canvas
         [image]="img"
         ></app-canvas>
     </div>
 
-    <div class="classes">
-        <form>
+    <form> 
+        <div class="classes">
             <div class="class" *ngFor="let cls of entities">
                 <div class="actions">
+                    <h2>{{cls.label}}</h2>
                     <mat-form-field appearance="fill">
                         <mat-label>{{cls.label}}</mat-label>
                         <input matInput [placeholder]="cls.label" [(ngModel)]="cls.value" [name]="cls.label">
                       </mat-form-field>
                 </div>
             </div>
-            <div class="submit">
-                <app-submit (click)="send()"></app-submit>
-            </div>
-        </form>
+        </div>
+        <div class="submit">
+            <app-submit (click)="send()"></app-submit>
+        </div>
         
-    </div>
+    </form>
 </div>

@@ -13,7 +13,7 @@ export class TeachComponent implements OnInit {
   nameToPath = new Map<string, string>([
     ["Image Classification", "img-classification"],
     ["Image Bounding Box", "img-bounding-box"],
-    ["Image Entity Extraction", "img-extraction"],
+    ["Image Extraction", "img-extraction"],
     ["Audio Recording", "recording"],
     ["Text Entity Extraction", "text-extraction"],
   ])
